@@ -3,12 +3,17 @@ public:
     int numIdenticalPairs(vector<int>& nums) {
         int count = 0;
         int size = nums.size();
-        for(int i = 0; i < size; i++) {
-            for(int j = i + 1; j < size; j++) {
-                if(nums[i] == nums[j]) {
-                    count++;
-                }
+        unordered_map<int, int> freq;
+        for(auto n : nums) {
+            freq[n]++;
+        }
+        
+        unordered_map<int, int>::iterator it = freq.begin();
+        while(it != freq.end()) {
+            if(it->second >= 2) {
+                count += (it->second * (it->second - 1)) / 2;
             }
+            it++;
         }
         return count;
     }
