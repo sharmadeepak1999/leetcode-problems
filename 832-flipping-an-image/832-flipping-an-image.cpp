@@ -4,16 +4,8 @@ public:
         int rows, columns;
         rows = columns = image.size();
         for(int i = 0; i < rows; i++) {
-            int j = 0, k = columns - 1;
-            while(j <= k) {
-                if(image[i][j] == image[i][k]) {
-                    int temp = !image[i][j];
-                    image[i][j] = !image[i][k];
-                    image[i][k] = temp;
-                }
-                j++;
-                k--;
-            }
+            reverse(image[i].begin(), image[i].end());
+            for(auto &b : image[i]) b ^= 1;
         }
         return image;
     }
