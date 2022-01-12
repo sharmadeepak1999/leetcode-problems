@@ -5,16 +5,16 @@ public:
         int size = nums.size();
         unordered_map<int, int> freq;
         for(auto n : nums) {
-            freq[n]++;
+            count += freq[n]++;
         }
         
-        unordered_map<int, int>::iterator it = freq.begin();
-        while(it != freq.end()) {
-            if(it->second >= 2) {
-                count += (it->second * (it->second - 1)) / 2;
-            }
-            it++;
-        }
+//         unordered_map<int, int>::iterator it = freq.begin();
+//         while(it != freq.end()) {
+//             if(it->second >= 2) {
+//                 count += (it->second * (it->second - 1)) / 2;
+//             }
+//             it++;
+//         }
         return count;
     }
 };
