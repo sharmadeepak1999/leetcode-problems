@@ -1,19 +1,19 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        unordered_map<int, int> count;
-        for(auto n : nums) {
-            ++count[n == 0 ? 0 : n == 1 ? 1 : 2];
-        }
-        int i = 0;
-        for(int j = 1; j <= count[0]; j++) {
-            nums[i++] = 0;
-        }
-        for(int j = 1; j <= count[1]; j++) {
-            nums[i++] = 1;
-        }
-        for(int j = 1; j <= count[2]; j++) {
-            nums[i++] = 2;
+        // Dutch National Flag Algo
+        int low = 0, mid = 0, high = nums.size() - 1;
+        while(mid <= high) {
+            switch(nums[mid]) {
+                case 0: 
+                    swap(nums[low++], nums[mid++]);
+                    break;
+                case 1: 
+                    mid++;
+                    break;
+                case 2:
+                    swap(nums[mid], nums[high--]);
+            }
         }
     }
 };
