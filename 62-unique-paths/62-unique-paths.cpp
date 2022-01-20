@@ -6,15 +6,7 @@ public:
         }
         if(i == m - 1 && j == n - 1) return 1;
         if(dp[i][j]) return dp[i][j];
-        int ans;
-        if(i == m - 1) {
-            ans = helper(m, n, i, j + 1, dp);
-        } else if(j == n - 1) {
-            ans = helper(m, n, i + 1, j, dp);
-        } else {
-            ans = helper(m, n, i, j + 1, dp) + helper(m, n, i + 1, j, dp);
-        }
-        return dp[i][j] = ans;
+        return dp[i][j] = helper(m, n, i, j + 1, dp) + helper(m, n, i + 1, j, dp);;
     }
     int uniquePaths(int m, int n) {
         vector<vector<int>> dp(m, vector<int>(n, 0));
