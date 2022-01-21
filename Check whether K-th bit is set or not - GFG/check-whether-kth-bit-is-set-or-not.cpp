@@ -17,7 +17,7 @@ class Solution
     {
         // Your code here
         // It can be a one liner logic!! Think of it!!
-        return n & ((int) pow(2.0, k));
+        return n & (1 << k);
     }
 };
 
