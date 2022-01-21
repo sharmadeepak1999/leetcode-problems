@@ -17,7 +17,7 @@ class Solution
     {
         // Your code here
         // It can be a one liner logic!! Think of it!!
-        return n & (1 << k);
+        return ((n >> k) & 1) == 1;
     }
 };
 
