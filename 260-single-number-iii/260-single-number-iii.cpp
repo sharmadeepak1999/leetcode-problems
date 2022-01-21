@@ -3,19 +3,12 @@ public:
     vector<int> singleNumber(vector<int>& nums) {
         int size = nums.size();
         long long int XOR = 0;
-        for(int i = 0; i < size; i++) {
-            XOR ^= nums[i];
-        }
+        for(auto num : nums) XOR ^= num;
         XOR &= -XOR;
-        int res1, res2;
-        res1 = res2 = 0;
-        for(int i = 0; i < size; i++) {
-            if((nums[i] & XOR) == 0) {
-                res2 ^= nums[i];
-            } else {
-                res1 ^= nums[i];
-            }
+        vector<int> res{0, 0};
+        for(auto num : nums) {
+            res[!((num & XOR) == 0)] ^= num; 
         }
-        return {res1, res2};
+        return res;
     }
 };
