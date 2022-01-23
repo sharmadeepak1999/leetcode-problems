@@ -4,7 +4,6 @@ public:
         int steps = 0;
         while(num > 0) {
             num & 1 ? num-- : num /= 2;
-            cout << num << ' ';
             steps++;
         }
         return steps;
