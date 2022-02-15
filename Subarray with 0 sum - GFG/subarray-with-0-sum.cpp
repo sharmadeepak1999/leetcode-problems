@@ -16,10 +16,9 @@ class Solution{
         //Your code here
         unordered_set<int> s; 
         int sum = 0;
-        s.insert(0);
         for(int i = 0; i < n; i++) {
             sum+=arr[i];
-            if(s.find(sum) != s.end()) return true;
+            if(s.find(sum) != s.end() || (sum == 0)) return true;
             s.insert(sum);
         }
         return false;
