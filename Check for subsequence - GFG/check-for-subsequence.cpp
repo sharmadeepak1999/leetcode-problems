@@ -6,6 +6,16 @@ using namespace std;
 
 class Solution{
     public:
+    bool helper(string a, string b, int i, int j) {
+        if(i < 0) return true;
+        if(j < 0) return false;
+        
+        if(a[i] == b[j]) {
+            return helper(a, b, i--, j--);
+        } else {
+            return helper(a, b, i, j--);
+        }
+    }
     bool isSubSequence(string a, string b) 
     {
         // code here
