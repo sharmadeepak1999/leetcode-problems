@@ -60,14 +60,11 @@ public:
         bool col0 = false; 
         
         for(int i = 0; i < matrix.size(); i++) {
-            for(int j = 0; j < matrix[0].size(); j++) {
+            if(matrix[i][0] == 0) col0 = true; 
+            for(int j = 1; j < matrix[0].size(); j++) {
                 if(matrix[i][j] == 0) {
-                    if(j == 0) {
-                        col0 = true;
-                    } else {
-                        matrix[0][j] = 0;   
-                        matrix[i][0] = 0;   
-                    }
+                    matrix[0][j] = 0;   
+                    matrix[i][0] = 0;   
                 }
             }
         }
