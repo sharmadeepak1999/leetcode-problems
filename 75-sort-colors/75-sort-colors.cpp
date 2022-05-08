@@ -1,19 +1,24 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        // Dutch National Flag Algo
-        int low = 0, mid = 0, high = nums.size() - 1;
-        while(mid <= high) {
-            switch(nums[mid]) {
-                case 0: 
-                    swap(nums[low++], nums[mid++]);
-                    break;
-                case 1: 
-                    mid++;
-                    break;
-                case 2:
-                    swap(nums[mid], nums[high--]);
+      /* 
+      1. sort the array, but it is not allowed in this question.
+      2. count the no of 1, 2, 0 and then insert them according to the order in a new array, but not allowed in this case.
+      3. 
+      
+      */
+        
+        
+        int i = 0, j = nums.size() - 1;
+        int c = 0;
+        while(c <= j) {
+            if(nums[c] == 0) {
+                swap(nums[c], nums[i++]);
+            } else if(nums[c] == 2) {
+                swap(nums[c], nums[j--]);
+                c--;
             }
+            c++;
         }
     }
 };
