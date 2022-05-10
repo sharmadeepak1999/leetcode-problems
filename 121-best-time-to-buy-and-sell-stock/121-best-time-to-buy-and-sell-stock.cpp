@@ -1,11 +1,16 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int size = prices.size(), maxProfit = INT_MIN, minValue = prices[0];
-        for(int i = 1; i < size; i++) {
-            maxProfit = max(maxProfit, prices[i] - minValue);
-            minValue = min(minValue, prices[i]);
+        int mp = 0;
+        int b = prices[0];
+        for(auto p : prices) {
+            int curr = p - b;
+            if(curr < 0) {
+                b = p;
+            } else {
+                mp = max(mp, curr);
+            }
         }
-        return maxProfit < 0 ? 0 : maxProfit;
+        return mp;
     }
 };
