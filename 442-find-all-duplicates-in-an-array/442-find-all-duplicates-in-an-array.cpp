@@ -14,7 +14,7 @@ public:
             
             if(nums[index] < 0) res.push_back(index + 1);
             
-            nums[index] *= -1;
+            nums[index] = -nums[index];
         }
         return res;
     }
