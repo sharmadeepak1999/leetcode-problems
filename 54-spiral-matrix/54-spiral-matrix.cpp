@@ -1,31 +1,35 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int row = matrix.size(), col = matrix[0].size();
-        vector<int> res;
-        int colStart = 0, colEnd = col - 1, rowStart = 0, rowEnd = row - 1;
-        while(rowStart <= rowEnd && colStart <= colEnd) {
-            for(int i = colStart; i <= colEnd; i++) {
-                res.push_back(matrix[rowStart][i]);
+        int cols = 0, cole = matrix[0].size() - 1, rowe = matrix.size() - 1, rows = 0;
+        vector<int> ans;
+        while(cols <= cole && rows <= rowe) {
+            for(int i = cols; i <= cole; i++) {
+                ans.push_back(matrix[rows][i]);
+                
             }
-            rowStart++;
-            for(int j = rowStart; j <= rowEnd; j++) {
-                res.push_back(matrix[j][colEnd]);
+            rows++;
+
+            for(int i = rows; i <= rowe; i++) {
+                ans.push_back(matrix[i][cole]);
             }
-            colEnd--;
-            if(rowStart <= rowEnd) {
-                for(int k = colEnd; k >= colStart; k--) {
-                    res.push_back(matrix[rowEnd][k]);
+
+            cole--;
+            if(rows <= rowe) {
+                for(int i = cole; i >= cols; i--) {
+                    ans.push_back(matrix[rowe][i]);
                 }
-                rowEnd--;   
+                rowe--;   
             }
-            if(colStart <= colEnd) {
-                for(int l = rowEnd; l >= rowStart; l--) {
-                    res.push_back(matrix[l][colStart]);
+            
+            if(cols <= cole) {
+                for(int i = rowe; i >= rows; i--) {
+                    ans.push_back(matrix[i][cols]);
                 }
-                colStart++;
+                cols++;
             }
         }
-        return res;
+        
+        return ans;
     }
 };
