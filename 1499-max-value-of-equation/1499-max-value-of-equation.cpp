@@ -16,7 +16,7 @@ public:
             return maxval;
         */
         
-        
+        /*
         // If we clearly see the equation, we can simplify it to (y1 + y2 + (-(x1 - x2))) this is because x1 < x2, for i < j. so when we simplify the abs function we get the above equation. (y1 - x1 + y2 + x2), here 1 is i, and 2 is j. So if we see for any index j, we can say that the y2 + x2 is fixed so to get the maximum value at this j, we need to get the max value of y1 - x1 from all previous points, so inorder to get the max value of all previous points, we can store it in a priority queue, we will store the diff y1 - x1 and the x1, in the priority queue, we store x1 to check for the satisfying condition, |x1 - x2| <= k, we will pop the pq, as long as the condition is not satisfied, and if the pq remain unempty after popping we will take the top of pq, and calculate the equation value with it, and check if it is maximum, we will repeat this process for every element in the array. this approach has a space complexity of O(n) in case when we need to store the whole array into the pq, and inserting into pq has O(log n) time complexity, so in worse situation it will be O(n logn) time complexity.
         
         priority_queue<pair<int, int>> pq;
@@ -30,6 +30,27 @@ public:
             }
             pq.push({points[i][1] - points[i][0], points[i][0]});
         }
+        return maxval;
+    }
+    */
+        
+    // To improve the tc from nlogn to n, we can use decreasing dequeue, which will be monotonic which means that it will have elements in decreasing order.
+        
+        deque<pair<int, int>> dq;
+        
+        int maxval = INT_MIN;
+        
+        for(int i = 0; i < points.size(); i++) {
+            while(!dq.empty() && abs(dq.front().second - points[i][0]) > k) dq.pop_front();
+            
+            if(!dq.empty()) {
+                maxval = max(maxval, dq.front().first + points[i][0] + points[i][1]);
+            }
+            
+            while(!dq.empty() && dq.back().first < points[i][1] - points[i][0]) dq.pop_back();
+            
+            dq.push_back({points[i][1] - points[i][0], points[i][0]});
+        } 
         return maxval;
     }
 };
