@@ -24,7 +24,7 @@ public:
         int maxval = INT_MIN;
         
         for(int i = 0; i < points.size(); i++) {
-            while(!pq.empty() && abs(points[i][0] - pq.top().second > k)) pq.pop();
+            while(!pq.empty() && abs(points[i][0] - pq.top().second) > k) pq.pop();
             if(!pq.empty()) {
                 maxval = max(maxval, points[i][0] + points[i][1] + pq.top().first);        
             }
