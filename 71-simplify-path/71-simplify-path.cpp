@@ -10,7 +10,6 @@ public:
                     i++;
                 }
                 v.push_back("/");
-                cout << endl << "/";
             } else {
                 string op = "";
                 
@@ -26,7 +25,6 @@ public:
                     }
                 } else if(op == ".") v.pop_back();
                 else v.push_back(op);
-                cout << endl << op;
             }
         }
         
