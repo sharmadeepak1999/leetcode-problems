@@ -5,33 +5,24 @@ public:
         int i = 0;
         
         while(i < path.length()) {
-            if(path[i] == '/') {
-                while(i < path.length() && path[i] == '/') {
-                    i++;
-                }
-                v.push_back("/");
-            } else {
+            if(path[i] != '/') {
                 string op = "";
                 
                 while(i < path.length() && path[i] != '/') {
                     op += path[i];
                     i++;
                 }
-                if(op == "..") {
+                if(op == ".." && !v.empty()) {
                     v.pop_back();
-                    if(v.size() >= 2) {
-                        v.pop_back();
-                        v.pop_back();   
-                    }
-                } else if(op == ".") v.pop_back();
-                else v.push_back(op);
+                } else if(op != "." && op != ".." && op != "") v.push_back(op);
             }
+            i++;
         }
         
         string cp = "";
-        if(v.size() > 2 && v.back() == "/") v.pop_back();
-        if(v.size() == 0) cp = "/";
-        for(auto s : v) cp += s;
+        if(v.size() == 0) return "/";
+        
+        for(auto s : v) cp += "/" + s;
         return cp;
     }
 };
