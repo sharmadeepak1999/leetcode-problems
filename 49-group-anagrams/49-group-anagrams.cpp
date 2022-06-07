@@ -1,5 +1,20 @@
 class Solution {
 public:
+    string countSort(string s) {
+        char cArr[26] = {0};
+        for(auto &c : s) cArr[c - 'a']++;
+        
+        int i = 0;
+        string ss = "";
+        while(i < 26) {
+            if(cArr[i] == 0) i++;
+            else {
+                cArr[i]--;
+                ss += 'a' + i;
+            }
+        }
+        return ss;
+    }
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         /*
         // We can traverse through the vector, and assume that the first element as an anagram, we create a hasmap of the chars and count of this element, now we run a inner loop from the next element, and another inner loop that checks that the char in the next element is same as the prev anagram, if it has more or less char, then we break, and store it for the next anagram iteration, this we do by keeping a newIndex pointer that initially has 0, and as we get a element that is not anagram, we update the element at newIndex with the current element, and increase newIndex, if the element is an anagram then we push the element to a temp vector, and at the end of loop we add it to our answer. after this all, we erase all the unwanted elements after the newIndex pointer, as only before it we have elements that are not yet grouped. this gives TLE
@@ -39,12 +54,30 @@ public:
         return ans;
         */
         
+    /*
+        // We can sort each element in the strs, which will cause every anagram to become equal, now we will traverse the strs, and use a hashmap to insert all the strings that have the same sorted version of anagram, at last we will loop through the hashmap, and push all values correspoding to every key to a vector.
+        
         vector<string> sortedStrs = strs;
         
         unordered_map<string, vector<string>> m;
         for(auto &s : sortedStrs) {
             string os = s;
             sort(s.begin(), s.end());
+            m[s].push_back(os);
+        }
+        
+        vector<vector<string>> ans;
+        for(auto &e : m) {
+            ans.push_back(e.second);
+        }
+        return ans;
+    */
+        
+        vector<string> sortedStrs = strs;   
+        unordered_map<string, vector<string>> m;
+        for(auto &s : sortedStrs) {
+            string os = s;
+            s = countSort(s);
             m[s].push_back(os);
         }
         
