@@ -52,9 +52,6 @@ public:
             if(expoFound) s2 += c;
             else s1 += c;
         }
-        cout << s1 << ' ' <<  isDecimal(s1) << ' ';
-        cout << s1 << ' ' <<  isInteger(s1) << ' ';
-        cout << s2 << ' ' <<  isInteger(s2) << endl;
         return expoFound ? (isDecimal(s1) || isInteger(s1)) && isInteger(s2) : (isDecimal(s1) || isInteger(s1));
     }
 };
