@@ -24,6 +24,9 @@ public:
         return maxArea;
         */
         
+        /*
+        // A better approach would be to pre compute the left and right smaller element of each index, we will achieve it by using a stack, and a left and right smaller array, we will loop through each element and check if the top of the stack is less than the current element, then that would be our boundary, if it is bigger than we will pop it out of the stack, we will repeatedly pop out of stack as long as the top element is greater than the current element or the stack is not empty, after that we will check if the stack is empty, that means we couldn't find a smaller element, so we will use the extermee as the boundary, which is 0 for left smaller, and heights.size() - 1 for right smaller, if stack is not empty than the the boundary will be top of the stack we will incremenet or decremenet it depends what we aer finding left or right smaller. after these we will insert the currenet element index into the stack and repeat the process for rest of the element.
+        
         
         vector<int> lsmall(heights.size());
         
@@ -60,6 +63,25 @@ public:
             maxArea = max(maxArea, (rsmall[i] - lsmall[i] + 1) * heights[i]);
         }
         
+        return maxArea;
+        */
+        
+        stack<int> s;
+        int maxArea = 0;
+        
+        for(int i = 0; i <= heights.size(); i++) {
+            while(!s.empty() && (i == heights.size() || heights[s.top()] >= heights[i])) {
+                int height = heights[s.top()];
+                s.pop();
+                
+                int width;
+                if(s.empty()) width = i;
+                else width = i - s.top() - 1;
+                
+                maxArea = max(maxArea, (width * height));
+            }
+            s.push(i);
+        }
         return maxArea;
     }
 };
