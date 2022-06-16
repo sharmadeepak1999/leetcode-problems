@@ -11,6 +11,8 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
+        /*
+        // Naive method is to traverse through the linked list and determine it size, then find the middle of linked list, and then again travel the ll this time counting the node visited, as it beccomes equal to the middle, break, and return
         int size = 0;
         
         ListNode* temp = head;
@@ -28,5 +30,14 @@ public:
             mid--;
         };
         return temp;
+        */
+        
+        ListNode *slow = head, *fast = head;
+        
+        while(fast && fast -> next) {
+            slow = slow -> next;
+            fast = (fast -> next) -> next;
+        }
+        return slow;
     }
 };
