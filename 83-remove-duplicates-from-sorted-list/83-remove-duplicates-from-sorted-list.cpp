@@ -10,7 +10,10 @@
  */
 class Solution {
 public:
+    /*
     ListNode* deleteDuplicates(ListNode* head) {
+        // We will keep a prev pointer, if the value of prev pointer equals to the current pointer, then we update the prev next to curr next, and delete the curr, if they are not equal then we put prev as curr, and curr as curr next.
+        
         ListNode *curr = head, *prev = NULL;
         
         while(curr) {
@@ -24,5 +27,21 @@ public:
             }
         }
         return head;
+    }
+    */
+    
+    
+    ListNode* helper(ListNode* head) {
+        if(!head) return NULL;
+        ListNode* res = helper(head -> next);
+        
+        if(res && res -> val == head -> val) return res;
+        else {
+            head -> next = res;
+            return head;
+        }
+    }
+    ListNode* deleteDuplicates(ListNode* head) {        
+        return helper(head);
     }
 };
