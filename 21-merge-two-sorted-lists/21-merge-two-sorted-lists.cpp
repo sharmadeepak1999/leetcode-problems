@@ -42,6 +42,8 @@ public:
         }
         return newHead -> next;
         */
+        if(!list1) return list2;
+        if(!list2) return list1;
         ListNode* newHead = new ListNode();
         ListNode* temp = newHead;
         while(list1 && list2) {
