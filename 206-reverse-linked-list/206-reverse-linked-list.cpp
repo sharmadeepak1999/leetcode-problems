@@ -11,6 +11,7 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
+        /*
         // Create a seperate linked list with the reversed nodes, make the curr node of the original linked list the head of the reversed ll.
         
         ListNode *rhead = NULL;
@@ -22,5 +23,16 @@ public:
             temp = temp -> next;
         }
         return rhead;
+        */
+        
+        
+        ListNode *temp = head, *prev = NULL;
+        while(temp) {
+            ListNode *t = temp -> next;
+            temp -> next = prev;
+            prev = temp;
+            temp = t;
+        }
+        return prev;
     }
 };
