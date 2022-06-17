@@ -28,6 +28,11 @@ public:
         return temp;
         */
         
+        
+
+        /*
+        // Since the length of the linked list after the intersection point are same for both, so we can find the lenght of both linked list, and move the pointer of the larger linked list such that it is at the same distance from the intersection point as the smaller ll, this can be done by moving the larger linked list pointer by the difference betweeen the length of both linked list, after that we will starting traversing both the ll simultaneously, and when both the pointer becomes equal, that is the interection point.
+        
         int l1 = 0, l2 = 0;
         
         ListNode *tempA = headA, *tempB = headB;
@@ -53,6 +58,16 @@ public:
         while(tempA && tempB && tempA != tempB) {
             tempA = tempA -> next;
             tempB = tempB -> next;
+        }
+        return tempA;
+        */
+        
+        
+        ListNode* tempA = headA, *tempB = headB;
+        
+        while(tempA != tempB) {
+            tempA = tempA == NULL ? headB : tempA -> next;
+            tempB = tempB == NULL ? headA : tempB -> next;
         }
         return tempA;
     }
