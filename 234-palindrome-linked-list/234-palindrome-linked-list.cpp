@@ -33,6 +33,15 @@ public:
         return prev;
     }
     
+    
+    bool helper(ListNode *head, ListNode *&left) {
+        if(head == NULL) return true;
+        
+        bool res = helper(head -> next, left);
+        if(!res || head -> val != left -> val) return false;
+        left = left -> next;
+        return res;
+    }
     bool isPalindrome(ListNode* head) {
         /*
         // Use a vector or array to store all the elements of the linked list, then use the two pointer approach to check if the left element and right element is equal then continue, or return false.
@@ -55,6 +64,9 @@ public:
         */
         
         
+        /*
+        
+        // Find the middle of the ll, and reverse the ll portion after the middle node, now start traversing simultaneously from the first node and the first node of the reversed list, if each node value matches of both pointer, then continue or else return false
         ListNode *mid = middleLL(head);
         mid -> next = reverseLL(mid -> next);
         
@@ -66,5 +78,11 @@ public:
             temp = temp -> next;
         }
         return true;
+        
+        */
+        
+        
+        
+        return helper(head, head);
     }
 };
