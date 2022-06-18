@@ -17,6 +17,9 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
+        /*
+        // We can create a hashmap to store the corresponding new node of old ones, we will first travel the ll, and create new ll with only next pointer, and then again travel the ll, this time handling the random pointer, using the hashmap.
+        
         unordered_map<Node*, Node*> m;
         
         Node* newHead = new Node(-1);
@@ -38,5 +41,36 @@ public:
             temp2 = temp2 -> next;
         }
         return newHead -> next;
+        */
+        
+        
+        Node* temp = head;
+        
+        while(temp) {
+            Node* t = temp -> next;
+            temp -> next = new Node(temp -> val);
+            temp -> next -> next = t;
+            temp = temp -> next -> next;
+        }
+        
+        temp = head;
+        while(temp) {
+            if(temp -> random) {
+                temp -> next -> random = temp -> random -> next;                
+            }
+            temp = temp -> next -> next;
+        }
+        
+        temp = head;
+        Node* temp2 = temp? temp -> next : NULL;
+        Node* newHead = temp2;
+        while(temp) {
+            temp -> next = temp2 -> next;
+            temp = temp -> next;
+            if(temp) 
+                temp2 -> next = temp -> next;
+            temp2 = temp2 -> next;
+        }
+        return newHead;
     }
 };
