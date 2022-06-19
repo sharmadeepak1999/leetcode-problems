@@ -14,9 +14,7 @@ public:
     Node* flatten(Node* head) {
         if(head ==  NULL) return NULL;
         
-        Node* newHead = new Node();
-        newHead -> next = head;
-        Node* temp = newHead;
+        Node* temp = head;
         
         while(temp) {
             Node *child = flatten(temp -> child);
@@ -35,6 +33,6 @@ public:
             }
             temp = t1;
         }
-        return newHead -> next;
+        return head;
     }
 };
