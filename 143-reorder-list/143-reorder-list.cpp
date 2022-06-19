@@ -11,6 +11,7 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
+        // Store the ll nodes in a vector, and then using left and right pointer create the links also maintain the whole list using another head variable
         vector<ListNode*> v;
         
         ListNode* temp = head;
@@ -24,7 +25,6 @@ public:
         ListNode* newHead = new ListNode();
         ListNode* temp2 = newHead;
         while(i < j) {
-            cout << v[i] -> val << ' ' << v[j] -> val << endl;
             v[i] -> next = v[j];
             temp2 -> next = v[i];
             temp2 = v[j];
