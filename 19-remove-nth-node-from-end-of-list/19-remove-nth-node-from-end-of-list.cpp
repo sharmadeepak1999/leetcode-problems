@@ -11,6 +11,8 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
+        /*
+        // Find the length of the ll, and then get to the node just before the node to delete, and modify the links accordingly, to handle edge cases create a dummy node, and start traversal from it.
         int len = 0;
         
         ListNode* temp = head;
@@ -32,5 +34,29 @@ public:
         temp -> next = temp -> next -> next;
         delete t;
         return newHead -> next;
+        */
+        
+        ListNode* newHead = new ListNode();
+        newHead -> next = head;
+
+        ListNode* slow = newHead, *fast = newHead;
+        
+        int i = 0; 
+        
+        while(i <= n) {
+            fast = fast -> next;
+            i++;
+        }
+        
+        while(fast) {
+            slow = slow -> next;
+            fast = fast -> next;
+        }
+        
+        ListNode* t = slow -> next;
+        slow -> next = slow -> next -> next;
+        delete t;
+        return newHead -> next;
+        
     }
 };
