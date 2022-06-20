@@ -1,23 +1,37 @@
 class Solution {
 public:
     string addBinary(string a, string b) {
-        int sum = 0, carry = 0;
-        string ans;
-        while(a.size() || b.size()) {
-            int o1 = 0, o2 = 0;
-            if(a.size() > 0) {
-                o1 = a.back() - '0';
-                a.pop_back();
-            }
-            if(b.size() > 0) {
-                o2 = b.back() - '0';
-                b.pop_back();
-            }
-            sum = o1 + o2 + carry;
-            ans = to_string(sum % 2) + ans;
-            carry = sum / 2;
+        string sum = "";
+        int carry = 0;
+        
+        int ea = a.size() - 1, eb = b.size() - 1;
+        
+        while(ea >= 0 && eb >= 0) {
+            int oa = a[ea--] - '0';
+            int ob = b[eb--] - '0';
+            
+            int s = oa + ob + carry;
+            sum = to_string(s%2) + sum;
+            carry = s / 2;
         }
-        if(carry) ans = to_string(carry) + ans;
-        return ans;
+    
+        while(ea >= 0) {
+            int oa = a[ea--] - '0';
+            
+            int s = oa + carry;
+            sum = to_string(s%2) + sum;
+            carry = s / 2;
+        }
+    
+        while(eb >= 0) {
+            int ob = b[eb--] - '0';
+            
+            int s = ob + carry;
+            sum = to_string(s%2) + sum;
+            carry = s / 2;
+        }
+        
+        if(carry) sum = '1' + sum;
+        return sum;
     }
 };
