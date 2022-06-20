@@ -21,6 +21,8 @@ public:
     
     ListNode* sortList(ListNode* head) {
         // A naive approach would be to use an array and store the ll nodes values in it and sort the array and traverse the ll and replace each node value with sequential value from the sorted array.
+        
+        // A better approach would be to use merge sort, by splitting the ll into two halves using the middle of the ll, and calling the merge sort on two halves, and then merging the returned sorted halves into single list.
         if(head == NULL || head -> next == NULL) return head;
         ListNode* mid = middleLL(head);
         ListNode* t = mid -> next;
@@ -41,16 +43,12 @@ public:
                 r = r -> next;
             }
         }
-        while(l) {
-            temp -> next = new ListNode(l -> val);
-            l = l -> next;
-            temp = temp -> next;
+        if(l) {
+            temp -> next = l;
         }
         
-        while(r) {
-            temp -> next = new ListNode(r -> val);
-            r = r -> next;
-            temp = temp -> next;
+        if(r) {
+            temp -> next = r;
         }
         
         return newHead -> next;
