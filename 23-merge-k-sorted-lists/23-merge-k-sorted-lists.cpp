@@ -98,6 +98,8 @@ public:
     }
     
     ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // A better approach is to repeatedly divide the lists from the middle and then start merging them from the bottom. this would take nLogk time complexity.
+        
         return merge(lists, 0, lists.size() - 1);
     }
 };
