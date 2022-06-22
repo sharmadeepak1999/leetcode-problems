@@ -35,6 +35,7 @@ public:
     }
     */
     
+    // We can do it using one queue only, when pushing an element to the queue, we push the element and then reverse the whole queue.
     
     queue<int> q;
     
@@ -44,22 +45,22 @@ public:
     
     void push(int x) {
         q.push(x);
+    }
+    
+    int pop() {
         int size = q.size();
         while(size > 1) {
             q.push(q.front());
             q.pop();
             size--;
         }
-    }
-    
-    int pop() {
         int x = q.front();
         q.pop();
         return x;
     }
     
     int top() {
-        return q.front();
+        return q.back();
     }
     
     bool empty() {
