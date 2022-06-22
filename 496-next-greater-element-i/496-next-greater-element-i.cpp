@@ -47,6 +47,8 @@ public:
         */
         
         
+        // Create a hashmap and insert the values of nums1 with their index in it. Now iterate through the nums2, and check if the element at the top of stack is less than the current element which means this current element is the next greater element of the current element, so we will pop it from the stack but before that insert this top of stack into the ans array in the correct position using the map, with the next greater element, after that pop that element, and then check if the current element exists in the map, i.e, it is in the nums1, the push into the stack. 
+        
         unordered_map<int, int> m;
         
         for(int i = 0; i < nums1.size(); i++) m[nums1[i]]=i;
