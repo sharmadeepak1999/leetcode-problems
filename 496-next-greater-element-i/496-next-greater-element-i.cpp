@@ -23,7 +23,7 @@ public:
         return ans;
         */
         
-        
+        // Craete a stack with initial value as -1, start traversing nums2 from the end, in a while loop check if top of stack is less than the current element and top of stack is not -1, then keep popping, otherwise insert into a map, the current element and the top of the stack which will represent the next greater element, and insert the current element into the stack, after that traverse the nums1, for each element find the correspoding next greater from the map, and insert in ans array and return it. here space complexity is O(nums2.size + nums2.size) one for map and other for stack, time complexity is nums2.size * atmost 1 pop of stack everytime
         unordered_map<int, int> m;
         stack<int> s;
         s.push(-1);
