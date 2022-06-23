@@ -7,22 +7,20 @@ class Solution
 {
 public:
 
-    void helper(vector<int>& arr, int n, int i, vector<int>& sub, vector<int>& ans) {
+    void helper(vector<int>& arr, int n, int i, int sum, vector<int>& ans) {
         if(i >= n) {
-            ans.push_back(accumulate(sub.begin(), sub.end(), 0));
+            ans.push_back(sum);
             return;
         }
-        
-        sub.push_back(arr[i]);
-        helper(arr, n, i + 1, sub, ans);
-        sub.pop_back();
-        helper(arr, n, i + 1, sub, ans);
+    
+        helper(arr, n, i + 1, sum + arr[i], ans);
+        helper(arr, n, i + 1, sum, ans);
     }
     vector<int> subsetSums(vector<int> arr, int n)
     {
         // Write Your Code here
-        vector<int> ans, sub;
-        helper(arr, n, 0, sub, ans);
+        vector<int> ans;
+        helper(arr, n, 0, 0, ans);
         return ans;
     }
 };
