@@ -48,6 +48,8 @@ public:
         return v;
         */
         
+        // An efficient way to solve this problem would be to use a hashmap to store the count of all duplicates, and we will use this map inorder to create our premutation, we will create the map, and call recursion using it, we will check if the permutation size is equal to the nums size, then we will add the current premutation to the result, otherwise we will traverse the map, and for every key in the map, we will insert it into the premutation array, if it's count is greater than 0, and then decresase its count and then call recursion, after the recursion we will re increase the count of the key and pop the key from the permutation array. 
+        
         vector<vector<int>> ans;
         vector<int> per;
         unordered_map<int, int> m;
