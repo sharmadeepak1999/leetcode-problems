@@ -40,6 +40,8 @@ public:
         return ans;
         */
         
+        // The second approach is to have every element at the first index of array by swapping each element with the first index, and calling the recursion for the next index. this would give a tc of n! * n, and sc of n! + n
+        
         vector<vector<int>> ans;
         helper(nums, ans, 0);
         return ans;
