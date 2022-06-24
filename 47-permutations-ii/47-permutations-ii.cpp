@@ -48,8 +48,6 @@ public:
         return v;
         */
         
-        
-        sort(nums.begin(), nums.end());
         vector<vector<int>> ans;
         vector<int> per;
         unordered_map<int, int> m;
