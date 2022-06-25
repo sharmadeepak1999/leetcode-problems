@@ -29,7 +29,7 @@ class Solution{
         m[row][col] = 1;
     }
     vector<string> findPath(vector<vector<int>> &m, int n) {
-        // Your code goes here
+        // We will brute force for every direction, in the recursive function we will check first for the index out of bound, that is the row and col should be within the constraints and the current element is not a zero, then we will check if the we reached the last cell, if yes then push the current path into ans and return, else make the current element as 0 to indicate that it has been visited and then call recursion for all four direction, up down left right by modifying the row and col variable, after the recursive calls make the current cell again as 1.
         vector<string> ans;
         string path = "";
         helper(m, ans, path, 0, 0, n);
