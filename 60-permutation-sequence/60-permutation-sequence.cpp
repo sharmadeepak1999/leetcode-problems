@@ -1,44 +1,52 @@
 class Solution {
 public:
-//     string helper(string n, int k, int i) {
-//         if(i > k) return n;
-//         int j = n.length() - 1;
-//         while(j >= 1 && n[j] <= n[j - 1]) j--;
-//         if(j == 0) return n;
+    /*
+    void helper(string& nums, int i, int n, vector<string>& ans) {
+        if(i >= n) {
+            ans.push_back(nums);
+            return;
+        }
+        for(int j = i; j < n; j++) {
+            swap(nums[j], nums[i]);
+            helper(nums, i + 1, n, ans);
+            swap(nums[j], nums[i]);
+        }
+    }
+    string getPermutation(int n, int k) {
+        // A brute force approach, We will generate all permutation of the given numbers, and store them in a vector, and then sort the vector, and return the element at k - 1 index. this will give time limit exceeded.
         
-//         int m = n.length() - 1;
-//         while(m >= j - 1 && n[m] < n[j - 1]) m--;
-//         swap(n[m], n[j - 1]);
-//         reverse(n.begin() + j, n.end());
-//         return helper(n, k, ++i);
-//     }
+        string nums;
+        for(int i = 0; i < n; i++) {
+            nums.push_back('0' + i + 1);
+        }
+        vector<string> ans;
+        
+        helper(nums, 0, n, ans);
+        sort(ans.begin(), ans.end());
+        
+        return ans[k-1];
+    }
+    */
     
-//     string getPermutation(int n, int k) {
-//         string num;
-//         for(int i = 1; i <= n; i++) {
-//             num.push_back('0' + i);
-//         }
-//         return helper(num, k, 2);
-//     }
     
     string getPermutation(int n, int k) {
         vector<int> nums;
         int fact = 1;
+        string ans = "";
         for(int i = 1; i < n; i++) {
             nums.push_back(i);
-            fact *= i;    
+            fact *= i;
         }
         nums.push_back(n);
+        
         k = k - 1;
-        string res = "";
         while(true) {
-            res += to_string(nums[k / fact]);
-            nums.erase(nums.begin() + k / fact);
+            ans += to_string(nums[k / fact]);
+            nums.erase(nums.begin() + (k / fact));
             if(nums.size() == 0) break;
-            k %= fact;
-            fact /= nums.size();
+            k = k % fact;
+            fact = fact / nums.size();
         }
-        return res;
+        return ans;
     }
-    
 };
