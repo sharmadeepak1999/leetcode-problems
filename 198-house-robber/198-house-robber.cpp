@@ -32,7 +32,7 @@ public:
     }
     */
     
-    
+    /*
     int helper(vector<int>& nums, vector<int>& dp, int n) {
         if(n < 0) return 0;
         if(n == 0) return nums[n];
@@ -45,7 +45,45 @@ public:
         return dp[n]=max(pick, donotpick);
     }
     int rob(vector<int>& nums) {
+        //We will use a dp array initialized with -1, after every computation store the result in the dp array for O(1) access in the future to solve overlapping sub problems.
+        
         vector<int> dp(nums.size(), -1);
         return helper(nums, dp, nums.size() - 1);
     }
+    */
+    
+    /*
+    int helper(vector<int>& nums, vector<int>& dp, int n) {
+        if(n < 0) return 0;
+        if(n == 0) return nums[n];
+
+        if(dp[n] != -1) return dp[n];
+        
+        int pick = nums[n] + helper(nums, dp, n - 2);
+        int donotpick = helper(nums, dp, n - 1);
+        
+        return dp[n]=max(pick, donotpick);
+    }
+    int rob(vector<int>& nums) {
+        //We will use a dp array initialized with -1, after every computation store the result in the dp array for O(1) access in the future to solve overlapping sub problems.
+        
+        vector<int> dp(nums.size(), -1);
+        return helper(nums, dp, nums.size() - 1);
+    }
+    */
+    int rob(vector<int>& nums) {   
+        vector<int> dp(nums.size(), -1);
+        dp[0]=nums[0];
+        
+        int maxMoney = nums[0];
+        for(int i = 1; i < nums.size(); i++) {
+            int pick = nums[i];
+            if(i > 1) pick = nums[i] + dp[i - 2];
+            int notpick = dp[i - 1];
+            dp[i] = max(pick, notpick);
+            maxMoney = max(maxMoney, dp[i]);
+        }
+        return maxMoney;
+    }
+    
 };
