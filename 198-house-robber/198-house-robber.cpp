@@ -71,7 +71,11 @@ public:
         return helper(nums, dp, nums.size() - 1);
     }
     */
+    
+    /*
     int rob(vector<int>& nums) {   
+        // We can convert the memoization sol to tabulation soln, by following bottom up approach.
+        
         vector<int> dp(nums.size(), -1);
         dp[0]=nums[0];
         
@@ -82,6 +86,24 @@ public:
             int notpick = dp[i - 1];
             dp[i] = max(pick, notpick);
             maxMoney = max(maxMoney, dp[i]);
+        }
+        return maxMoney;
+    }
+    */
+    
+    
+    int rob(vector<int>& nums) {
+        int prev = nums[0], prevprev = 0;
+        
+        int maxMoney = nums[0];
+        for(int i = 1; i < nums.size(); i++) {
+            int pick = nums[i];
+            if(i > 1) pick = nums[i] + prevprev;
+            int notpick = prev;
+            int curr = max(pick, notpick);
+            prevprev = prev;
+            prev = curr;
+            maxMoney = max(maxMoney, curr);
         }
         return maxMoney;
     }
