@@ -51,6 +51,7 @@ public:
     */
     
     int climbStairs(int n) {
+        // We see that in the tabulation technique, we are only concerned with the previous two values, so instead of storing them in a dp array, we can just use two variables and operate on them.
         int prev1 = 1, prev2 = 1;
         for(int i = 2; i <= n; i++) {
             int curr = prev1 + prev2;
