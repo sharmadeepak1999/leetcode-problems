@@ -37,8 +37,9 @@ public:
     */
     
     
-
+    /*
     int climbStairs(int n) {
+        // We can use tabulation technique, we will pre set the ways to reach 0 step and 1 step as 1, and then start filling the vector table for further steps, this problem is identical to fibonacci problem. 
         vector<int> dp(n + 1, false);
         dp[0] = 1;
         dp[1] = 1;
@@ -47,4 +48,16 @@ public:
         }
         return dp[n];
     }
+    */
+    
+    int climbStairs(int n) {
+        int prev1 = 1, prev2 = 1;
+        for(int i = 2; i <= n; i++) {
+            int curr = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
+
 };
