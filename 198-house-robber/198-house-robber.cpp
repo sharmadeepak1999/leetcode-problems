@@ -93,6 +93,8 @@ public:
     
     
     int rob(vector<int>& nums) {
+        // instead of using the dp array we just need the previous and the its previous, so we can have only two variables to do things.
+        
         int prev = nums[0], prevprev = 0;
         
         int maxMoney = nums[0];
