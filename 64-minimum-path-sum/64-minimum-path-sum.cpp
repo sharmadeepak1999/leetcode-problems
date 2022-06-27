@@ -29,8 +29,10 @@ public:
     }
     */
     
+    /*
     int minPathSum(vector<vector<int>>& grid) {
-        // We will use the tabulation process.
+        // We will use the tabulation process. this would be the bottom up appraoch in which we simply convert the recursion to iteration. 
+        
         int m = grid.size();
         int n = grid[0].size();
         vector<vector<int>> dp(m, vector<int>(n, -1));
@@ -51,5 +53,32 @@ public:
         }
         return dp[m - 1][n - 1];
     }
+    */
     
+    
+    int minPathSum(vector<vector<int>>& grid) {
+        // We can space optimize the tabulation method, since it only uses the current row's left and previous row, we can just maintain a prev row array, instead of a full dp array.
+        
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<int> prev(n, 0);
+        
+        for(int i = 0; i < m; i++) {
+            vector<int> curr(n, 0);
+            for(int j = 0; j < n; j++) {
+                if(i == 0 && j == 0) curr[0] = grid[0][0];
+                else {
+                    int up = INT_MAX;
+                    int left = INT_MAX;
+                    
+                    if(i > 0) up = prev[j];
+                    if(j > 0) left = curr[j - 1];
+                    
+                    curr[j] = grid[i][j] + min(up, left);
+                }
+            }
+            prev = curr;
+        }
+        return prev[n - 1];
+    }
 };
