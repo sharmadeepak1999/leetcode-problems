@@ -17,6 +17,7 @@ public:
     }
     */
     
+    /*
     int minimumTotal(vector<vector<int>>& triangle) {
         // We will use tabulation now
         vector<vector<int>> dp(triangle.size() + 1, vector<int>(triangle[triangle.size() - 1].size() + 1, 0));
@@ -28,5 +29,23 @@ public:
             }
         }
         return dp[0][0];
+    }
+    */
+    
+    
+    int minimumTotal(vector<vector<int>>& triangle) {
+        // We will space optimize now
+        
+        vector<int> next(triangle.size() + 1, 0);
+        
+        for(int i = triangle.size() - 1; i >= 0; i--) {
+            int n = triangle[i].size();
+            vector<int> curr(n + 1, 0);
+            for(int j = n - 1; j >= 0; j--) {
+                curr[j] = triangle[i][j] + min(next[j], next[j + 1]);
+            }
+            next = curr;
+        }
+        return next[0];
     }
 };
