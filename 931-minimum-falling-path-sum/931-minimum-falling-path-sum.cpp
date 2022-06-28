@@ -53,7 +53,7 @@ public:
     }
     */
     
-     
+    /*
     int helper(vector<vector<int>>& matrix, vector<vector<int>>& dp, int m, int n) {
         if(n < 0 || n >= matrix.size()) return INT_MAX;
         
@@ -80,4 +80,35 @@ public:
         }
         return minPath;
     }
+    */
+    
+     
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        // We will use memoization to improve time compx.
+        
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        vector<vector<int>> dp(m, vector<int>(n, INT_MAX));
+        
+        for(int i = 0; i < n; i++) {
+            dp[m - 1][i] = matrix[m - 1][i];
+        }
+        
+        for(int i = m - 2; i >= 0; i--){
+            for(int j = 0; j < n; j++) {
+                int d = dp[i + 1][j];
+                int ldg = j > 0 ? dp[i + 1][j - 1] : INT_MAX;
+                int rdg = j < n - 1 ? dp[i + 1][j + 1] : INT_MAX;
+                dp[i][j] = matrix[i][j] + min(d, min(ldg, rdg));
+            }
+        }
+        
+        int minPath = INT_MAX;
+        for(int i = 0; i < n; i++) {
+            minPath = min(minPath, dp[0][i]);
+        }
+        return minPath;
+    }
+    
 };
