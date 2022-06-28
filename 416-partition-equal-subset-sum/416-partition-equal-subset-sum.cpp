@@ -42,6 +42,7 @@ public:
     }
     */
     
+    /*
     bool canPartition(vector<int>& nums) {
         // We will use tabulation method
         int sum = accumulate(nums.begin(), nums.end(), 0);
@@ -66,5 +67,31 @@ public:
             }
         }
         return dp[nums.size() - 1][sum / 2];
+    }
+    */
+    
+    bool canPartition(vector<int>& nums) {
+        // We will space optimize
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if(sum & 1) return false;
+        vector<bool> prev((sum / 2) + 1, false), curr((sum / 2) + 1, false);
+        prev[0] = true;
+        curr[0] = true;
+        
+        if(nums[0] <= sum / 2)
+            prev[nums[0]] = true;
+        
+        for(int i = 1; i < nums.size(); i++) {
+            for(int target = 1; target <= sum / 2; target++) {
+                bool nottake = prev[target];
+                bool take = false;
+                if(nums[i] <= target) {
+                    take = prev[target - nums[i]];        
+                }
+                curr[target] = (take || nottake);
+            }
+            prev = curr;
+        }
+        return prev[sum / 2];
     }
 };
