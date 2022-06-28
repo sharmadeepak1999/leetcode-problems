@@ -20,7 +20,7 @@ public:
     }
     */
     
-    
+    /*
     bool helper(vector<int>& nums, vector<vector<int>> &dp, int i, int target) {
         if(target == 0) return true;
         if(i == 0) return nums[0] == target;
@@ -39,5 +39,32 @@ public:
         if(sum & 1) return false;
         vector<vector<int>> dp(nums.size(), vector<int>((sum / 2) + 1, -1));
         return helper(nums, dp, nums.size() - 1, sum / 2);
+    }
+    */
+    
+    bool canPartition(vector<int>& nums) {
+        // We will use tabulation method
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if(sum & 1) return false;
+        vector<vector<bool>> dp(nums.size(), vector<bool>((sum / 2) + 1, false));
+        
+        for(int i = 0; i < nums.size(); i++) {
+            dp[i][0] = true;    
+        }
+        
+        if(nums[0] <= sum / 2)
+            dp[0][nums[0]] = true;
+        
+        for(int i = 1; i < nums.size(); i++) {
+            for(int target = 1; target <= sum / 2; target++) {
+                bool nottake = dp[i - 1][target];
+                bool take = false;
+                if(nums[i] <= target) {
+                    take = dp[i - 1][target - nums[i]];        
+                }
+                dp[i][target] = (take || nottake);
+            }
+        }
+        return dp[nums.size() - 1][sum / 2];
     }
 };
