@@ -82,9 +82,9 @@ public:
     }
     */
     
-     
+    /*
     int minFallingPathSum(vector<vector<int>>& matrix) {
-        // We will use memoization to improve time compx.
+        // We will use tabulation to improve space compx.
         
         int m = matrix.size();
         int n = matrix[0].size();
@@ -107,6 +107,38 @@ public:
         int minPath = INT_MAX;
         for(int i = 0; i < n; i++) {
             minPath = min(minPath, dp[0][i]);
+        }
+        return minPath;
+    }
+    */
+    
+    
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        // We will space optimize it now.
+        
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        vector<int> front(n, 0);
+        
+        for(int i = 0; i < n; i++) {
+            front[i] = matrix[m - 1][i];
+        }
+        
+        for(int i = m - 2; i >= 0; i--){
+            vector<int> curr(n, 0);
+            for(int j = 0; j < n; j++) {
+                int d = front[j];
+                int ldg = j > 0 ? front[j - 1] : INT_MAX;
+                int rdg = j < n - 1 ? front[j + 1] : INT_MAX;
+                curr[j] = matrix[i][j] + min(d, min(ldg, rdg));
+            }
+            front = curr;
+        }
+        
+        int minPath = INT_MAX;
+        for(int i = 0; i < n; i++) {
+            minPath = min(minPath, front[i]);
         }
         return minPath;
     }
