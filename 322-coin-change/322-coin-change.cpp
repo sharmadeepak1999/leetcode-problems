@@ -66,24 +66,25 @@ public:
     
     int coinChange(vector<int>& coins, int amount) {
         // We will use tabulation
-        vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
+        vector<int> prev(vector<int>(amount + 1, -1)), curr(vector<int>(amount + 1, -1));
         
         for(int amt = 0; amt <= amount; amt++) {
-            dp[0][amt] = amt % coins[0] == 0 ? amt / coins[0] : 1e9;
+            prev[amt] = amt % coins[0] == 0 ? amt / coins[0] : 1e9;
         }
         
         for(int i = 1; i < coins.size(); i++) {
             for(int amt = 0; amt <= amount; amt++) {
-                int nottake = dp[i - 1][amt];
+                int nottake = prev[amt];
                 int take = 1e9;
                 if(coins[i] <= amt) {
-                    take = 1 + dp[i][amt - coins[i]];
+                    take = 1 + curr[amt - coins[i]];
                 }
-                dp[i][amt] = min(take, nottake);
+                curr[amt] = min(take, nottake);
             }
+            prev = curr;
         }
         
-        int ans = dp[coins.size() - 1][amount];
+        int ans = prev[amount];
         return ans == 1e9 ? -1 : ans;
     }
 };
