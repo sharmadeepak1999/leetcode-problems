@@ -42,7 +42,7 @@ public:
     }
     */
     
-    
+    /*
     int change(int amount, vector<int>& coins) {
         // use tabulation.
         vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, 0));
@@ -68,5 +68,32 @@ public:
             }
         }
         return dp[coins.size() - 1][amount];
+    }
+    */
+    
+    int change(int amount, vector<int>& coins) {
+        // use space optimization.
+        vector<int> prev(amount + 1, 0), curr(amount + 1, 0);
+        
+        prev[0] = curr[0] = 1;
+        
+        for(int amt = 0; amt <= amount; amt++) {
+            if(amt % coins[0] == 0) {
+                prev[amt] = 1;
+            }    
+        }
+        
+        for(int i = 1; i < coins.size(); i++) {
+            for(int amt = 0; amt <= amount; amt++) {
+                int nottake = prev[amt];
+                int take = 0;
+                if(coins[i] <= amt) {
+                    take = curr[amt - coins[i]];
+                }
+                curr[amt] = take + nottake;
+            }
+            prev = curr;
+        }
+        return prev[amount];
     }
 };
