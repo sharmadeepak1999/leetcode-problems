@@ -23,7 +23,7 @@ public:
     
     
     
-    
+    /*
     int helper(vector<int>& coins, vector<vector<int>>& dp, int i, int amount) {
         if(i == 0) {
             return amount % coins[0] == 0 ? amount / coins[0] : 1e9;
@@ -43,6 +43,47 @@ public:
         // We will use memoization
         vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
         int ans = helper(coins, dp, coins.size() - 1, amount);
+        return ans == 1e9 ? -1 : ans;
+    }
+    */
+    
+    
+    
+    int helper(vector<int>& coins, vector<vector<int>>& dp, int i, int amount) {
+        if(i == 0) {
+            return amount % coins[0] == 0 ? amount / coins[0] : 1e9;
+        }
+     
+        if(dp[i][amount] != -1) return dp[i][amount];
+        
+        int nottake = helper(coins, dp, i - 1, amount);
+        int take = 1e9;
+        if(coins[i] <= amount) {
+            take = 1 + helper(coins, dp, i, amount - coins[i]);
+        }
+        return dp[i][amount] = min(take, nottake);
+    }
+    
+    int coinChange(vector<int>& coins, int amount) {
+        // We will use tabulation
+        vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
+        
+        for(int amt = 0; amt <= amount; amt++) {
+            dp[0][amt] = amt % coins[0] == 0 ? amt / coins[0] : 1e9;
+        }
+        
+        for(int i = 1; i < coins.size(); i++) {
+            for(int amt = 0; amt <= amount; amt++) {
+                int nottake = dp[i - 1][amt];
+                int take = 1e9;
+                if(coins[i] <= amt) {
+                    take = 1 + dp[i][amt - coins[i]];
+                }
+                dp[i][amt] = min(take, nottake);
+            }
+        }
+        
+        int ans = dp[coins.size() - 1][amount];
         return ans == 1e9 ? -1 : ans;
     }
 };
