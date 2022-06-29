@@ -51,9 +51,9 @@ public:
     }
     */
     
-    
+    /*
     int findTargetSumWays(vector<int>& nums, int target) {
-        // we will space optimize.
+        // we will use tabulation.
         
         int total = accumulate(nums.begin(), nums.end(), 0);
         if(total - target < 0 || (total - target) % 2) return 0;
@@ -75,5 +75,31 @@ public:
             }
         }
         return dp[nums.size() - 1][(total - target) / 2];
+    }
+    */
+    
+    int findTargetSumWays(vector<int>& nums, int target) {
+        // we will space optimize.
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if(total - target < 0 || (total - target) % 2) return 0;
+        int newTarget = (total - target) / 2;
+        vector<int> prev(vector<int>(newTarget + 1, 0)), curr(vector<int>(newTarget + 1, 0));
+        
+        prev[0] = 1;
+        if(nums[0] == 0) prev[0] = 2;
+        if(nums[0] != 0 && nums[0] <= newTarget) prev[nums[0]] = 1;
+        
+        for(int i = 1; i < nums.size(); i++) {
+            for(int t = 0; t <= newTarget; t++) {
+                int nottake = prev[t];
+                int take = 0;
+                if(nums[i] <= t) {
+                    take = prev[t - nums[i]];
+                }
+                curr[t] = take + nottake;
+            }
+            prev = curr;
+        }
+        return prev[(total - target) / 2];
     }
 };
