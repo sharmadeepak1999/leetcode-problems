@@ -38,18 +38,18 @@ public:
     
     
     int longestCommonSubsequence(string text1, string text2) {
-        // we will use tabulation to optimize space
-        vector<vector<int>> dp(text1.size() + 1, vector<int>(text2.size() + 1, 0));
+        // we will space optimize using only two 1D array
+        vector<int> prev(text2.size() + 1, 0), curr(text2.size() + 1, 0);
         
-        for(int i = 0; i < text1.size(); i++) dp[i][0] = 0;
-        for(int j = 0; j < text2.size(); j++) dp[0][j] = 0;
+        prev[0] = curr[0] = 0;
         
         for(int i = 1; i <= text1.size(); i++) {
             for(int j = 1; j <= text2.size(); j++) {
-                if(text1[i - 1] == text2[j - 1]) dp[i][j] = 1 + dp[i - 1][j - 1];
-                else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                if(text1[i - 1] == text2[j - 1]) curr[j] = 1 + prev[j - 1];
+                else curr[j] = max(prev[j], curr[j - 1]);
             }
+            prev = curr;
         }
-        return dp[text1.size()][text2.size()];
+        return prev[text2.size()];
     }
 };
