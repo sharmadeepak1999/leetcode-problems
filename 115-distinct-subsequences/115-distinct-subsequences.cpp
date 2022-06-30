@@ -46,7 +46,7 @@ public:
     }
     */
     
-    
+    /*
     int numDistinct(string s, string t) {
         // space optimization using two array only.
         vector<double> prev(t.length() + 1, 0), curr(t.length() + 1, 0);
@@ -65,5 +65,26 @@ public:
             prev = curr;
         }
         return (int) prev[t.length()];
+    }
+    
+    */
+    
+    
+    int numDistinct(string s, string t) {
+        // space optimization using one array only.
+        vector<double> curr(t.length() + 1, 0);
+        
+        curr[0] = 1;
+        // starting from 1 in order to avoid rewriting the value from the prev loop. not really required since we are already initializing the array with 0.
+        for(int j = 1; j <= t.length(); j++) {
+            curr[j] = 0;
+        }
+        
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = t.length(); j >= 1; j--) {
+                if(s[i - 1] == t[j - 1]) curr[j] = curr[j - 1] + curr[j];
+            }
+        }
+        return (int) curr[t.length()];
     }
 };
