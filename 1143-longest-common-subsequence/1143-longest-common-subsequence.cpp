@@ -35,8 +35,7 @@ public:
         return helper(text1, text2, dp, text1.size(), text2.size());
     }
     */
-    
-    
+
     int longestCommonSubsequence(string text1, string text2) {
         // we will space optimize using only two 1D array
         vector<int> prev(text2.size() + 1, 0), curr(text2.size() + 1, 0);
