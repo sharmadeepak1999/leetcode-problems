@@ -22,6 +22,7 @@ public:
     }
     */
     
+    /*
     int numDistinct(string s, string t) {
         // Using tabulation technique, we need to use 1 based indexing to avoid negative indexes in the dp array. 
         // We will use double just to avoid run time error, and type case it to int when returning.
@@ -42,5 +43,27 @@ public:
             }
         }
         return (int) dp[s.length()][t.length()];
+    }
+    */
+    
+    
+    int numDistinct(string s, string t) {
+        // space optimization using two array only.
+        vector<double> prev(t.length() + 1, 0), curr(t.length() + 1, 0);
+        
+        prev[0] = curr[0] = 1;
+        // starting from 1 in order to avoid rewriting the value from the prev loop. not really required since we are already initializing the array with 0.
+        for(int j = 1; j <= t.length(); j++) {
+            prev[j] = curr[j] = 0;
+        }
+        
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 1; j <= t.length(); j++) {
+                if(s[i - 1] == t[j - 1]) curr[j] = prev[j - 1] + prev[j];
+                else curr[j] = prev[j];
+            }
+            prev = curr;
+        }
+        return (int) prev[t.length()];
     }
 };
