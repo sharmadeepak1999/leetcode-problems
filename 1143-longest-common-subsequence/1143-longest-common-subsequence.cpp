@@ -36,6 +36,7 @@ public:
     }
     */
 
+    /*
     int longestCommonSubsequence(string text1, string text2) {
         // we will space optimize using only two 1D array
         vector<int> prev(text2.size() + 1, 0), curr(text2.size() + 1, 0);
@@ -49,6 +50,42 @@ public:
             }
             prev = curr;
         }
+        return prev[text2.size()];
+    }
+    */
+    
+    
+    
+    int longestCommonSubsequence(string text1, string text2) {
+        // Printing the LCS
+        vector<int> prev(text2.size() + 1, 0), curr(text2.size() + 1, 0);
+        
+        prev[0] = curr[0] = 0;
+        
+        for(int i = 1; i <= text1.size(); i++) {
+            for(int j = 1; j <= text2.size(); j++) {
+                if(text1[i - 1] == text2[j - 1]) curr[j] = 1 + prev[j - 1];
+                else curr[j] = max(prev[j], curr[j - 1]);
+            }
+            prev = curr;
+        }
+        
+        string lcs = "";
+        
+        int i = text1.size(), j = text2.size();
+        
+        while(i > 0 && j > 0) {
+            if(text1[i - 1] == text2[j - 1]) {
+                lcs = text1[i - 1] + lcs;
+                i--;
+                j--;
+            } else if(prev[j] > curr[j - 1]) {
+                i--;
+            } else j--;
+        }
+        
+        cout << lcs << endl;
+        
         return prev[text2.size()];
     }
 };
