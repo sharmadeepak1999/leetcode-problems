@@ -42,6 +42,7 @@ public:
     }
     */
     
+    /*
     int maxProfit(int k, vector<int>& prices) {
         // using tabulation
         int n = prices.size();
@@ -65,5 +66,32 @@ public:
             }
         }
         return dp[0][1][k];
+    }
+    */
+    
+    int maxProfit(int k, vector<int>& prices) {
+        // using space optimizatin
+        int n = prices.size();
+        vector<vector<int>> front(2, vector<int>(k + 1, 0)), curr(2, vector<int>(k + 1, 0));
+        
+        // since the dp array is already initialized with 0, so we are skipping the base case;
+        
+        for(int i = n - 1; i >= 0; i--) {
+            for(int buy = 0; buy <= 1; buy++) {
+                // starting with 1 cause 0 is the base case
+                for(int cap = 1; cap <= k; cap++) {
+                    int profit = 0;
+        
+                    if(buy) {
+                        profit = max(-prices[i] + front[0][cap], front[1][cap]);
+                    } else {
+                        profit = max(prices[i] + front[1][cap - 1], front[0][cap]);
+                    }
+                   curr[buy][cap] = profit;
+                }
+            }
+            front = curr;
+        }
+        return front[1][k];
     }
 };
