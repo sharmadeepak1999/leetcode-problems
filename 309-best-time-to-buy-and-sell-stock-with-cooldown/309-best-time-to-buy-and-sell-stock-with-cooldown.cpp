@@ -39,7 +39,7 @@ public:
     */
     
     int maxProfit(vector<int>& prices) {
-        // using tabulation
+        // using tabulation, we can do another space optimization by using 3 vector array front1, front2, curr;
         int n = prices.size();
         vector<vector<int>> dp(n + 2, vector<int>(2, 0));
         
