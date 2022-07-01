@@ -21,6 +21,7 @@ public:
     
     
     int maxProfit(vector<int>& prices) {
+        // If we sell at any index, we will have to try to buy at the minimum cost before that index, so we will start from the second element, and calculate the profit taking the first element as the minPrice, and update the profit as required, as well as update the minPrice according to the current price
         int minPrice = prices[0], profit = 0;
         
         int n = prices.size();
