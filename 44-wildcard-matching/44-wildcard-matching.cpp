@@ -58,6 +58,7 @@ public:
     
     */
     
+    /*
     bool isMatch(string s, string p) {
         // We will do tabulation
         int m = s.length(), n = p.length();
@@ -89,5 +90,42 @@ public:
             }
         }
         return dp[m][n];
+    }
+    
+    */
+    
+    
+    bool isMatch(string s, string p) {
+        // We will space optimize
+        int m = s.length(), n = p.length();
+        vector<bool> prev(n + 1, false), curr(n + 1, false);
+        prev[0] = true;
+        
+        for(int j = 1; j <= n; j++) {
+            bool valid = true;
+            for(int c = 1; c <= j; c++) {
+                if(p[c - 1] != '*') {
+                    valid = false;
+                    break;
+                }
+            }
+            prev[j] = valid;
+        }
+        
+        
+        for(int i = 1; i <= m; i++) {
+            curr[0] = false;    
+            for(int j = 1; j <= n; j++) {
+                if(s[i - 1] == p[j - 1] || p[j - 1] == '?') {
+                    curr[j] = prev[j - 1];
+                } else if(p[j - 1] == '*') {
+                    curr[j] = prev[j] || curr[j - 1];
+                } else {
+                    curr[j] = false;                    
+                }
+            }
+            prev = curr;
+        }
+        return prev[n];
     }
 };
