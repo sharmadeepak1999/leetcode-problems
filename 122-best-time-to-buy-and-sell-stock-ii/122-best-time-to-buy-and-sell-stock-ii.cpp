@@ -15,20 +15,45 @@ public:
       }
       */
     
-    int maxProfit(vector<int>& prices) {
-        int profit = 0; 
-        int minPrice = prices[0];
-        
-        for(int i = 1; i < prices.size(); i++) {
-            int price = prices[i];
-            int currProfit = price - minPrice;
-            if(currProfit > 0) {
-                profit += currProfit;
-                minPrice = price;
-            } else {
-                minPrice = min(minPrice, price);
-            }
+    /*
+    int helper(vector<int>& prices, int i, int buy) {
+        if(i == prices.size()) return 0;
+        int profit = 0;
+        if(buy) {
+            // Buy at the current price, money will go out of the pocket, so it will reduced form the profit, or we can choose to not buy, then we will just call recursion for next index, take max of these.
+            profit = max(-prices[i] + helper(prices, i + 1, 0), helper(prices, i + 1, 1));
+        } else {
+            // Sell or not sell depends, add current prices to profit if decides to sell.
+            profit = max(prices[i] + helper(prices, i + 1, 1), helper(prices, i + 1, 0));
         }
         return profit;
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        return helper(prices, 0, 1);
+    }
+    */
+    
+    
+    int helper(vector<int>& prices, vector<vector<int>> &dp, int i, int buy) {
+        if(i == prices.size()) return 0;
+    
+        if(dp[i][buy] != -1) return dp[i][buy];
+        
+        int profit = 0;
+    
+        if(buy) {
+            // Buy at the current price, money will go out of the pocket, so it will reduced form the profit, or we can choose to not buy, then we will just call recursion for next index, take max of these.
+            profit = max(-prices[i] + helper(prices, dp, i + 1, 0), helper(prices, dp, i + 1, 1));
+        } else {
+            // Sell or not sell depends, add current prices to profit if decides to sell.
+            profit = max(prices[i] + helper(prices, dp, i + 1, 1), helper(prices, dp, i + 1, 0));
+        }
+        return dp[i][buy] = profit;
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        vector<vector<int>> dp(prices.size(), vector<int>(2, -1));
+        return helper(prices, dp, 0, 1);
     }
 };
