@@ -60,7 +60,7 @@ public:
     */
     
 
-    
+    /*
     int maxProfit(vector<int>& prices) {
         // Using tabulation
         int n = prices.size();
@@ -82,5 +82,32 @@ public:
             }
         }
         return dp[0][1];
+    }
+    */
+    
+    
+    
+    int maxProfit(vector<int>& prices) {
+        // Using space optimization
+        int n = prices.size();
+        
+        vector<int> front(2, 0), curr(2, 0);
+        front[0] = front[1] = 0;
+        
+        for(int i = n - 1; i >= 0; i--) {
+            for(int buy = 0; buy <= 1; buy++) {
+                int profit = 0;
+                if(buy) {
+                    // Buy at the current price, money will go out of the pocket, so it will reduced form the profit, or we can choose to not   buy, then we will just call recursion for next index, take max of these.
+                    profit = max(-prices[i] + front[0], front[1]);
+                } else {
+                    // Sell or not sell depends, add current prices to profit if decides to sell.
+                    profit = max(prices[i] + front[1], front[0]);
+                }
+                curr[buy] = profit;
+            }
+            front = curr;
+        }
+        return front[1];
     }
 };
