@@ -30,6 +30,7 @@ public:
     }
     */
     
+    /*
     int minDistance(string word1, string word2) {
         // Using tabulation method
         int m = word1.length();
@@ -52,5 +53,34 @@ public:
             }
         }
         return dp[m][n];
+    }
+    */
+    
+    
+    int minDistance(string word1, string word2) {
+        // space optimizing
+        int m = word1.length();
+        int n = word2.length();
+        vector<int> prev(n + 1, 0), curr(n + 1, 0);
+        
+        prev[0] = 0;
+        
+        for(int j = 0; j <= n; j++) prev[j] = j;
+                
+        for(int i = 1; i <= m; i++) {
+            curr[0] = i;
+            for(int j = 1; j <= n; j++) {
+                if(word1[i - 1] == word2[j - 1]) {
+                    curr[j] = prev[j - 1];
+                } else {
+                    int del = 1 + prev[j];
+                    int repl = 1 + prev[j - 1];
+                    int insert = 1 + curr[j - 1];
+                    curr[j] = min(del, min(repl, insert));
+                }
+            }
+            prev = curr;
+        }
+        return prev[n];
     }
 };
