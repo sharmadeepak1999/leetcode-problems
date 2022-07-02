@@ -34,6 +34,7 @@ public:
     }
     */
     
+    /*
     int lengthOfLIS(vector<int>& nums) {
         // we will use tabulation, for handling the case for lastIndex to be -1, we can do a coordinate change that is store the result at lastIndex + 1.
         
@@ -54,5 +55,24 @@ public:
         }
         
         return dp[0][0];
+    }
+    */
+    
+    
+    int lengthOfLIS(vector<int>& nums) {
+        // we will space optimize
+        int n = nums.size();
+        vector<int> front(n + 1, 0), curr(n + 1, 0);
+        
+        for(int i = n - 1; i >= 0; i--) {
+            for(int lastIndex = i - 1; lastIndex >= -1; lastIndex--){
+                if(lastIndex == -1 || nums[i] > nums[lastIndex]) {
+                    curr[lastIndex + 1] = max(1 + front[i + 1], front[lastIndex + 1]);
+                } else curr[lastIndex + 1] = front[lastIndex + 1];
+            }
+            front = curr;
+        }
+        
+        return front[0];
     }
 };
