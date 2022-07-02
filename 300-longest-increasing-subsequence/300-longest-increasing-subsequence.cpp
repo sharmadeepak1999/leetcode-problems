@@ -78,7 +78,7 @@ public:
     
     */
     
-    
+    /*
      int lengthOfLIS(vector<int>& nums) {
         // One approach would be to initialize an array of size nums, with 1 denoting the longest LIS ending with the current index. now start from the first index, and check all the previous indexes, if they are smaller then update current index length to the max of the current and the previous index + 1. also update the maxLen LIS at each index by comparing the current maxLen with the current index value.
         int n = nums.size();
@@ -93,6 +93,42 @@ public:
             }
             maxLen = max(maxLen, dp[i]);
         }
+        return maxLen;
+    }
+    */
+    
+    
+    int lengthOfLIS(vector<int>& nums) {
+        // For printing the LIS, we can maintain another backtrack array that would store the previous index for every current index.
+        
+        int n = nums.size();
+        vector<int> dp(n, 1), hash(n);
+        int lastIndex = 0;
+        int maxLen = 0;
+        for(int i = 0; i < n; i++) {
+            hash[i] = i;
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i] && 1 + dp[j] > dp[i]) {
+                    dp[i] = 1 + dp[j];
+                    hash[i] = j;
+                }
+            }
+            if(dp[i] > maxLen) {
+                maxLen = dp[i];
+                lastIndex = i;
+            }
+        }
+        
+        vector<int> temp;
+        
+        temp.push_back(nums[lastIndex]);
+        
+        while(hash[lastIndex] != lastIndex){
+            lastIndex = hash[lastIndex];
+            temp.push_back(nums[lastIndex]);
+        }
+        reverse(temp.begin(), temp.end());
+        for(auto &it: temp) cout << it << ' ';
         return maxLen;
     }
 };
