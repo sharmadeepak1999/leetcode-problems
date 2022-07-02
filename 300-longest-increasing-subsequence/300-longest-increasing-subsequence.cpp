@@ -97,6 +97,7 @@ public:
     }
     */
     
+    /*
     
     int lengthOfLIS(vector<int>& nums) {
         // For printing the LIS, we can maintain another backtrack array that would store the previous index for every current index.
@@ -130,5 +131,26 @@ public:
         reverse(temp.begin(), temp.end());
         for(auto &it: temp) cout << it << ' ';
         return maxLen;
+    }
+    */
+    
+     
+    int lengthOfLIS(vector<int>& nums) {
+        // There is a binary search approach, but it is not intuitive, refer to striver video for the same.
+        int n = nums.size();
+        vector<int> temp;
+        int len = 1;
+        temp.push_back(nums[0]);
+        for(int i = 1; i < n; i++) {
+            if(nums[i] > temp.back()){
+                temp.push_back(nums[i]);
+                len++;
+            } else {
+                int ind = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
+                temp[ind] = nums[i];
+            }
+        }
+        
+        return len;
     }
 };
