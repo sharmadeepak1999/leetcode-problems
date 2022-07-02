@@ -58,7 +58,7 @@ public:
     }
     */
     
-    
+    /*
     int lengthOfLIS(vector<int>& nums) {
         // we will space optimize
         int n = nums.size();
@@ -74,5 +74,25 @@ public:
         }
         
         return front[0];
+    }
+    
+    */
+    
+    
+     int lengthOfLIS(vector<int>& nums) {
+        // One approach would be to initialize an array of size nums, with 1 denoting the longest LIS ending with the current index. now start from the first index, and check all the previous indexes, if they are smaller then update current index length to the max of the current and the previous index + 1. also update the maxLen LIS at each index by comparing the current maxLen with the current index value.
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        
+        int maxLen = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]) {
+                    dp[i] = max(dp[i], 1 + dp[j]);
+                }
+            }
+            maxLen = max(maxLen, dp[i]);
+        }
+        return maxLen;
     }
 };
