@@ -41,7 +41,7 @@ public:
             TreeNode* top = s.top();
             s.pop();
             
-            //
+            // inserting the right first because it is a stack, and we will process the left first, which will be at the top if we push it after right.
             if(top -> right) s.push(top -> right);
             if(top -> left) s.push(top -> left);
 
