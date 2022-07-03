@@ -48,7 +48,7 @@ public:
     }
     */
     
-    
+    /*
     int wiggleMaxLength(vector<int>& nums) {
         // tabulation
         int n = nums.size();
@@ -69,5 +69,30 @@ public:
             }
         }
         return dp[0][0][0];
+    }
+    */
+    
+    
+    int wiggleMaxLength(vector<int>& nums) {
+        // space optimization
+        int n = nums.size();
+        vector<vector<int>> front(n + 1, vector<int>(3, 0)), curr(n + 1, vector<int>(3, 0));
+        
+        for(int i = n - 1; i >= 0; i--) {
+            for(int prevIndex = i - 1; prevIndex >= -1; prevIndex--) {
+                for(int prevSign = 1; prevSign >= -1; prevSign--) {
+                    if(prevIndex == -1) {
+                        curr[prevIndex + 1][prevSign + 1] = max(1 + front[i + 1][0], front[0][0]);
+                    } else {
+                        int currSign = nums[i] - nums[prevIndex] > 0 ? 1 : 0;
+                        if((prevSign != -1 && prevSign == currSign) || nums[i] == nums[prevIndex]) {
+                            curr[prevIndex + 1][prevSign + 1] = front[prevIndex + 1][prevSign + 1];
+                        }else curr[prevIndex + 1][prevSign + 1] = max(1 + front[i + 1][currSign + 1], front[prevIndex + 1][prevSign + 1]);
+                    }
+                }
+            }
+            front = curr;
+        }
+        return front[0][0];
     }
 };
