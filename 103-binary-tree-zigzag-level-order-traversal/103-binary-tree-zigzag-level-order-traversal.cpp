@@ -12,6 +12,7 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        // either reverse the level array before adding to answer if the level is even, 0 based indexing, or we can maintain vector of size of queue, and decide with the help of flag if to insert from the beginning or the end.
         vector<vector<int>> ans;
         
         if(root == NULL) return ans;
@@ -19,20 +20,20 @@ public:
         queue<TreeNode*> q;
         q.push(root);
         
-        int lvl = 1;
+        int lvl = 0;
         while(!q.empty()) {
             int size = q.size();
             
-            vector<int> level;
+            vector<int> level(size);
             for(int i = 0; i < size; i++) {
                 TreeNode* front = q.front();
                 q.pop();
                 if(front -> right) q.push(front -> right);
                 if(front -> left) q.push(front -> left); 
-
-                level.push_back(front -> val);
+                
+                int index = lvl & 1 ? i : size - i - 1;
+                level[index] = front -> val;
             }
-            if(lvl & 1) reverse(level.begin(), level.end());
             lvl++;
             ans.push_back(level);
         }
