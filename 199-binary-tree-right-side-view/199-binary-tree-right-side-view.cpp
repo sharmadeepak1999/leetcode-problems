@@ -11,8 +11,9 @@
  */
 class Solution {
 public:
+    /*
     vector<int> rightSideView(TreeNode* root) {
-        // do level order traversal
+        // do level order traversal, the time complexity is On
         vector<int> ans;
         if(root == NULL) return ans;
         
@@ -34,4 +35,20 @@ public:
         }
         return ans;
     }
+    */
+    
+    void helper(TreeNode* root, int level, vector<int>& ans) {
+        if(root == NULL) return;
+        
+        if(level == ans.size()) ans.push_back(root -> val);
+        helper(root -> right, level + 1, ans);
+        helper(root -> left, level + 1, ans);
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        // recursion, this saves the space requried for the queue in level order traversal.
+        vector<int> ans;
+        helper(root, 0, ans);
+        return ans;
+    }
+    
 };
