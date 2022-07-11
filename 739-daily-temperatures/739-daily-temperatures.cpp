@@ -20,6 +20,7 @@ public:
     
     
     vector<int> dailyTemperatures(vector<int>& temperatures) {
+        // We will use a monotonic stack, we will iterate through the array, and if we find the top of the stack is less than the curr temp, then we update an answer array of the top of the stack position, and pop, we do this as long as the top of the stack becomes greater than the curr element, at last we push the curr element to the stack.
         int size = temperatures.size();
         vector<int> ans(size, 0);
         stack<int> st;
