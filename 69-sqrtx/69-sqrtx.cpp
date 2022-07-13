@@ -1,20 +1,19 @@
-#define ll long long
-
 class Solution {
 public:
     int mySqrt(int x) {
-        ll low = 1, high = x, ans = 0;
-        while(low <= high) {
-            ll mid = (low + high) / 2;
-            ll mSq = mid * mid;
+        if(x == 1) return 1;
+        int lo = 1, hi = x / 2;
+        
+        int ans = 0;
+        while(lo <= hi) {
+            int mid = (lo + hi) / 2;
+            long num = (long) mid * mid;
             
-            if(mSq == x) {
-                return mid;
-            } else if(mSq > x) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
+            if(num <= x) {
                 ans = mid;
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;                
             }
         }
         return ans;
