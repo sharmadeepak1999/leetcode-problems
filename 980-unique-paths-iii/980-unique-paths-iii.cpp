@@ -4,8 +4,7 @@ public:
         if(i >= m || i < 0 || j >= n || j < 0 || grid[i][j] == -1 || grid[i][j] == -2) return 0;
         
         if(grid[i][j] == 2) {
-            if(c == 1) return 1;
-            return 0;
+            return c == 1;
         }
         
         grid[i][j] = -1;
@@ -29,6 +28,7 @@ public:
                 } else if(grid[i][j] == -1) obs++;
             }
         }
-        return helper(grid, m, n, si, sj, m * n - obs);   
+        int nonobs = m * n - obs;
+        return helper(grid, m, n, si, sj, nonobs);   
     }
 };
