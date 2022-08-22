@@ -10,7 +10,6 @@ public:
         
         int c = 0;
         for(int i = 0; i < n; i++) {
-            if(additionalRocks <= 0) break;
             if(diff[i] >= 0) {
                 if(diff[i] > additionalRocks) break;
                 c++;
