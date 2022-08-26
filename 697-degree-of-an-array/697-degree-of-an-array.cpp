@@ -26,30 +26,22 @@ public:
         */
         
         unordered_map<int, int> mp;
+        unordered_map<int, pair<int, int>> mp2;
+        for(int i = 0; i < nums.size(); i++) {
+            mp[nums[i]]++;
+            if(mp2.find(nums[i]) == mp2.end()) {
+                mp2[nums[i]].first = i, mp2[nums[i]].second = i;
+            } else mp2[nums[i]].second = i;
+        }
         
-        for(auto &n:nums) mp[n]++;
-        
-        map<int, vector<int>, greater<int>> mp2;
-        
-        for(auto &it:mp) mp2[it.second].push_back(it.first);
-        
-        vector<int> highFreqEle = mp2.begin() -> second;
-        
+        int highFreq = 0;
+        for(auto &it:mp) 
+            if(it.second > highFreq) highFreq = it.second;
         int minLen = INT_MAX;
-        for(auto &e:highFreqEle) {
-            int firstIndex = -1, secondIndex = -1; 
-            for(int i = 0; i < nums.size(); i++) {
-                if(nums[i] == e) {
-                    if(firstIndex == -1){
-                        firstIndex = i;
-                        secondIndex = i;
-                    } else {
-                        secondIndex = i;
-                    }
-                }
+        for(auto &it:mp) {
+            if(it.second == highFreq) {
+                minLen = min(minLen, mp2[it.first].second - mp2[it.first].first + 1);
             }
-            
-            minLen = min(minLen, secondIndex - firstIndex + 1);
         }
         return minLen;
     }
