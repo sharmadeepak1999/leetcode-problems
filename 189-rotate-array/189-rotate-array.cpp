@@ -17,24 +17,30 @@ public:
 //         }
         
         
+//         int n = nums.size();
+//         k = k % n;
+//         vector<int> nums1(n - k);
+//         vector<int> nums2(k);
+//         for(int i = 0; i < n - k; i++) {
+//             nums1[i] = nums[i];
+//         }
+        
+//         for(int i = n - k; i < n; i++) {
+//             nums2[i - (n - k)] = nums[i];
+//         }
+        
+//         for(int i = 0; i < k; i++) {
+//             nums[i] = nums2[i];
+//         }
+        
+//         for(int i = k; i < n; i++) {
+//             nums[i] = nums1[i - k];
+//         }
+        
         int n = nums.size();
-        k = k % n;
-        vector<int> nums1(n - k);
-        vector<int> nums2(k);
-        for(int i = 0; i < n - k; i++) {
-            nums1[i] = nums[i];
-        }
-        
-        for(int i = n - k; i < n; i++) {
-            nums2[i - (n - k)] = nums[i];
-        }
-        
-        for(int i = 0; i < k; i++) {
-            nums[i] = nums2[i];
-        }
-        
-        for(int i = k; i < n; i++) {
-            nums[i] = nums1[i - k];
-        }
+        k %= n;
+        reverse(nums.begin(), nums.begin() + n - k);
+        reverse(nums.begin() + n - k, nums.end());
+        reverse(nums.begin(), nums.end());
     }
 };
