@@ -17,9 +17,10 @@ public:
             }
             return -1;
         */
+     
+        /*
         
-        
-        // We will use Boyer–Moore algorithm, in which we will start traversing the array, and set the result as the first element and count as 1. now we will go further, if we see the next element is same as the result, we increment the count, if it is different, then we will decrement the count, we will do this as long as the count is not 0, when it becomes 0, then we will update the result as the current element, and repeat the process, this algo gurantees that if a majority element exists then it will find it.
+        // We will use Moore voting algorithm, in which we will start traversing the array, and set the result as the first element and count as 1. now we will go further, if we see the next element is same as the result, we increment the count, if it is different, then we will decrement the count, we will do this as long as the count is not 0, when it becomes 0, then we will update the result as the current element, and repeat the process, this algo gurantees that if a majority element exists then it will find it.
         
         int res = nums[0], count = 1;
         
@@ -29,6 +30,29 @@ public:
             {
                 count--;
             } else count++;
+        }
+        return res;
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    // Moore's voting algorithm
+        int n = nums.size();
+        int res = nums[0];
+        int count = 1;
+        for(int i = 1; i < n; i++) {
+            if(nums[i] == res) count++;
+            else if(count == 0) res = nums[i];
+            else count--;
         }
         return res;
     }
