@@ -16,14 +16,17 @@ class Solution {
     //     return gmin;
     // }
     
+    // long long gcd(long long a, long long b) {
+    //     if(a == 0) return b;
+    //     if(b == 0) return a;
+        
+    //     if(a == b) return a;
+        
+    //     if(a > b) return gcd(a - b, b);
+    //     return gcd(a, b - a);
+    // }
     long long gcd(long long a, long long b) {
-        if(a == 0) return b;
-        if(b == 0) return a;
-        
-        if(a == b) return a;
-        
-        if(a > b) return gcd(a - b, b);
-        return gcd(a, b - a);
+        return b == 0 ? a : gcd(b, a % b);
     }
     vector<long long> lcmAndGcd(long long a, long long b) {
         // code here
