@@ -9,7 +9,6 @@ public:
         
         int n = points.size();
         for(int i = 1; i < n; i++) {
-            cout << points[i][0] << ' ' << mine << endl;
             if(points[i][0] > mine) {
                 mine = points[i][1];
                 arrows++;
@@ -18,8 +17,3 @@ public:
         return arrows;
     }
 };
-
-// 1, 6
-// 2, 8
-// 7, 12
-// 10, 16
