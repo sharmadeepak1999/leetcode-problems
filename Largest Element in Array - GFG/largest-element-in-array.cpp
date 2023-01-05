@@ -16,6 +16,9 @@ public:
         
         // for(auto &a:arr) if(a > maxe) maxe = a;
         // return maxe;
+        
+        sort(arr.begin(), arr.end());
+        return arr[arr.size() - 1];
     }
 };
 
