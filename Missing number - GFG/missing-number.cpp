@@ -26,9 +26,18 @@ int main()
 int missingNumber(int a[], int n)
 {
     // Your code goes here
+    /*
     int asum = (n * (n + 1)) / 2;
     
     int gsum = accumulate(a, a + n - 1, 0);
     
     return asum - gsum;
+    */
+    
+    int sum = 0;
+    
+    for(int i = 1; i <= n; i++) sum ^= i;
+    
+    for(int i = 0; i < n - 1; i++) sum ^= a[i];
+    return sum;
 }
