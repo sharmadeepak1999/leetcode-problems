@@ -29,6 +29,6 @@ public:
                 }
             }
         }
-        return pq.top().first;
+        return 0;
     }
 };
