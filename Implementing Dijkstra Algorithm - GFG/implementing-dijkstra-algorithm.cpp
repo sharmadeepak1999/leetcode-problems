@@ -10,6 +10,7 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int v, vector<vector<int>> adj[], int s)
     {
+        /*
         // Code here
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         
@@ -27,6 +28,33 @@ class Solution
                 if(currDist < dist[adjNode[0]]) {
                     dist[adjNode[0]] = currDist;
                     pq.push({dist[adjNode[0]], adjNode[0]});
+                }
+            }
+        }
+        return dist;
+        */
+        
+        set<pair<int, int>> st;
+        
+        st.insert({0, s});
+        
+        vector<int> dist(v, INT_MAX);
+        dist[s] = 0;
+        while(!st.empty()) {
+            auto it = *(st.begin());
+            int dis = it.first;
+            int node = it.second;
+            st.erase(it);
+            
+            for(auto &adjNode:adj[node]) {
+                int w = adjNode[1];
+                int nd = adjNode[0];
+                
+                if(dis + w < dist[nd]) {
+                    if(dist[nd] != INT_MAX)
+                        st.erase({ dist[nd], nd });
+                    dist[nd] = dis + w;
+                    st.insert({ dist[nd], nd });
                 }
             }
         }
