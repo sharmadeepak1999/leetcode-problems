@@ -6,6 +6,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
+    /*
     int helper(vector<int> &height, vector<int> &dp, int n, int k) {
         if(n == 1) return 0;
         if(dp[n] != INT_MAX) return dp[n];
@@ -22,6 +23,24 @@ class Solution {
         // Code here
         vector<int> dp(n + 1, INT_MAX);
         helper(height, dp, n, k);
+        return dp[n];
+    }
+    */
+    int minimizeCost(vector<int>& height, int n, int k) {
+        // Code here
+        vector<int> dp(n + 1, INT_MAX);
+        dp[0] = 0;
+        dp[1] = 0;
+        
+        for(int i = 2; i <= n; i++) {
+            int mini = INT_MAX;
+            for(int j = 1; j <= k; j++) {
+                if(i - j - 1 >= 0)
+                    mini = min(mini, dp[i - j] + abs(height[i - j - 1] - height[i - 1]));
+                else break;
+            }
+            dp[i] = mini;
+        }
         return dp[n];
     }
 };
