@@ -7,22 +7,18 @@ typedef long long int ll;
 class Solution
 {
     public:
-    int helper(int arr[], vector<int> &dp, int n) {
-        if(n <= 0) return 0;
-        if(dp[n] != 0) return dp[n];
-        int pick = arr[n - 1] + helper(arr, dp, n - 2);
-        int notpick = helper(arr, dp, n - 1);
-        return dp[n] = max(pick, notpick);
-    }
     //Function to find the maximum money the thief can get.
     int FindMaxSum(int arr[], int n)
     {
         // Your code here
         vector<int> dp(n + 1, 0);
-        dp[]
-        helper(arr, dp, n);
+        dp[0] = 0;
+        for(int i = 1; i <= n; i++) {
+            int pick = arr[i - 1] + dp[i - 2];
+            int notpick = dp[i - 1];
+            dp[i] = max(pick, notpick);
+        }
         return dp[n];
-        
     }
 };
 
