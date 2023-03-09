@@ -1,19 +1,20 @@
 class Solution {
 public:
-    bool helper(vector<int> &nums, vector<vector<int>> &dp, int target, int i) {
-        if(target == 0) return true;
-        if(i == 0) return false;
-        if(dp[i][target] != -1) return dp[i][target];
-        int nottake = helper(nums, dp, target, i - 1);
-        int take = false;
-        if(target >= nums[i]) take = helper(nums, dp, target - nums[i], i - 1);
-        return dp[i][target] = take or nottake;
-    }
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
         int osum = accumulate(nums.begin(), nums.end(), 0);
         if(osum % 2 == 1) return false;
-        vector<vector<int>> dp(n, vector<int>(osum / 2 + 1, -1));
-        return helper(nums, dp, osum / 2, n - 1);
+        vector<vector<int>> dp(n, vector<int>(osum / 2 + 1, 0));
+        for(int i = 0; i < n; i++) dp[i][0] = true;
+        
+        for(int i = 1; i < n; i++) {
+            for(int j = 1; j <= osum / 2; j++) {
+                int nottake = dp[i - 1][j];
+                int take = 0;
+                if(j >= nums[i]) take = dp[i - 1][j - nums[i]];
+                dp[i][j] = take or nottake;
+            }
+        }
+        return dp[n - 1][osum / 2];
     }
 };
