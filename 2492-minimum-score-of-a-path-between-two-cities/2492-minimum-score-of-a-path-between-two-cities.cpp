@@ -19,7 +19,6 @@ public:
         vector<int> visited(n + 1, 0);
         dfs(adj, visited, 1);
         
-        for(auto &it:visited) cout << it << ' ';
         int mini = INT_MAX;
         for(int i = 0; i < adj.size(); i++) {
             if(visited[i]) {
