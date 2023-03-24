@@ -92,20 +92,26 @@ struct Node
 void addNode(Node *head, int pos, int data)
 {
    // Your code here
-   Node *temp = head;
+   Node *dummy = new Node(-1);
+   dummy -> next = head;
+   head -> prev = dummy;
    
-   for(int i = 0; i < pos; i++) temp = temp -> next;
+   Node* temp = dummy;
+   
+   for(int i = 0; i <= pos; i++) {
+       temp = temp -> next;
+   }
    
    Node *newNode = new Node(data);
    
-   if(temp -> next == NULL) {
-       temp -> next = newNode;
-       newNode -> prev = temp;
+   Node *t = temp -> next;
+   
+   temp -> next = newNode;
+   newNode -> prev = temp;
+   if(t) {
+       newNode -> next = t;
+       t -> prev = newNode;
    }
-   else {
-       newNode -> next = temp -> next;
-       temp -> next -> prev = newNode;
-       newNode -> prev = temp;
-       temp -> next = newNode;
-   }
+   head = dummy -> next;
+   head -> prev = NULL;
 }
