@@ -10,20 +10,21 @@
  */
 class Solution {
 public:
-    ListNode* helper(ListNode* head, int n, int& i) {
-        if(head == NULL) return NULL;
-        ListNode *node = helper(head -> next, n, i);
-        if(i == n) {
-            head -> next = node -> next;
-        }
-        i++;
-        return head;
-    }
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* dummy = new ListNode();
+        ListNode *dummy = new ListNode();
         dummy -> next = head;
-        int i = 0;
-        helper(dummy, n, i);
+        ListNode *temp1 = dummy;
+        
+        for(int i = 0; i <= n; i++) {
+            temp1 = temp1 -> next;
+        }
+        ListNode *temp2 = dummy;
+        
+        while(temp1) {
+            temp1 = temp1 -> next;
+            temp2 = temp2 -> next;
+        }
+        temp2 -> next = temp2 -> next -> next;
         return dummy -> next;
     }
 };
