@@ -9,34 +9,18 @@
  * };
  */
 class Solution {
-public:
-    ListNode* reverseLL(ListNode* head) {
-        ListNode *prev = NULL, *temp = head;
-    
-        while(temp) {
-            ListNode *t = temp -> next;
-            temp -> next = prev;
-            prev = temp;
-            temp = t;
+    bool helper(ListNode* head, ListNode *&left) {
+        if(head == NULL) return true;
+        bool res = helper(head -> next, left);
+        if(!res) return false;
+        if(head -> val == left -> val) {
+            left = left -> next;
+            return true;
         }
-        return prev;
+        return false;
     }
+public:
     bool isPalindrome(ListNode* head) {
-        ListNode *slow = head, *fast = head;
-        
-        while(fast && fast -> next && fast -> next -> next) {
-            slow = slow -> next;
-            fast = fast -> next -> next;
-        }
-        
-        slow -> next = reverseLL(slow -> next);
-        ListNode *temp1 = head, *temp2 = slow -> next;
-        while(temp2) {
-            if(temp1 -> val != temp2 -> val) return false;
-            temp1 = temp1 -> next;
-            temp2 = temp2 -> next;
-        }
-        
-        return true;
+        return helper(head, head);
     }
 };
