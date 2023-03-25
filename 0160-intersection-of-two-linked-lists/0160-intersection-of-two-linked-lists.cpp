@@ -9,13 +9,43 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        // Make use of the difference of the length of the lls before intersection
-        ListNode *tempA = headA, *tempB = headB;
+        ListNode *t1 = headA, *t2 = headB;
         
-        while(tempA != tempB) {
-            tempA = tempA == NULL ? headB : tempA -> next;
-            tempB = tempB == NULL ? headA : tempB -> next;
+        while(t1 && t2) {
+            t1 = t1 -> next;
+            t2 = t2 -> next;
         }
-        return tempA;
+        
+        int l = 0;
+        
+        if(!t1) {
+            while(t2) {
+                t2 = t2 -> next;
+                l++;
+            }
+            t1 = headA, t2 = headB;
+            
+            for(int i = 1; i <= l; i++) {
+                t2 = t2 -> next;
+            }
+        } else {
+            while(t1) {
+                t1 = t1 -> next;
+                l++;
+            }
+            
+            t1 = headA, t2 = headB;
+            
+            for(int i = 1; i <= l; i++) {
+                t1 = t1 -> next;
+            }
+        }
+        
+        while(t1 && t2) {
+            if(t1 == t2) return t1;
+            t1 = t1 -> next;
+            t2 = t2 -> next;
+        }
+        return NULL;
     }
 };
