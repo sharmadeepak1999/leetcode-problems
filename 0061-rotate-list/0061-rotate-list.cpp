@@ -11,46 +11,38 @@
 class Solution {
 public:
     ListNode* reverseLL(ListNode* head) {
-        ListNode *curr = head;
-        ListNode *prev = NULL;
-        ListNode *next = head;
-        while(next) {
-            curr = next;
-            next = curr -> next;
-            curr -> next = prev;
-            prev = curr;
+        ListNode* prev = NULL;
+        ListNode* temp = head;
+        
+        while(temp) {
+            ListNode* t = temp -> next;
+            temp -> next = prev;
+            prev = temp;
+            temp = t;
         }
-        return curr;
+        return prev;
     }
     ListNode* rotateRight(ListNode* head, int k) {
-        if(head == NULL) return NULL;
-        int l = 0;
+        if(k == 0 || !head) return head;
         ListNode *temp = head;
+        
+        int n = 0;
         
         while(temp) {
             temp = temp -> next;
-            l++;
+            n++;
         }
-        k = k % l;
-        ListNode* first = head;
+        
+        k %= n;
         temp = head;
-        // cout << l << ' ' << k;
-        for(int i = 1; i < l - k; i++) {
+        
+        for(int i = 1; i < n - k; i++) {
             temp = temp -> next;
         }
-        ListNode* second = temp -> next;
+        ListNode* t = reverseLL(temp -> next);
         temp -> next = NULL;
-        first = reverseLL(first);
-        second = reverseLL(second);
-        
-        temp = first;
-        
-        while(temp -> next) {
-            temp = temp -> next;
-        }
-        
-        temp -> next = second;
-        first = reverseLL(first);
-        return first;
+        temp = reverseLL(head);
+        head -> next = t;
+        return reverseLL(temp);
     }
 };
