@@ -11,19 +11,26 @@
  */
 class Solution {
 public:
-    TreeNode* helper(vector<int>& inorder, vector<int>& postorder, int is, int ie, int ri, int re) {
-        if(is > ie || ri > re) return NULL;
-        int i = is;
-        while(inorder[i] != postorder[re]) i++;
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        unordered_map<int, int> mp;
+        int n = inorder.size();
+        for(int i = 0; i < n; i++) {
+            mp[inorder[i]] = i;
+        }
         
-        TreeNode* root = new TreeNode(inorder[i]);
+        return helper(inorder, postorder, 0, n - 1, 0, n - 1, mp);
+    }
+    TreeNode* helper(vector<int>& inorder, vector<int> &postorder, int inStart, int inEnd, int posStart, int posEnd, unordered_map<int, int> &mp) {
+        if(inStart > inEnd || posStart > posEnd) return NULL;
         
-        root -> left = helper(inorder, postorder, is, i - 1, ri, ri + i - is - 1);
-        root -> right = helper(inorder, postorder, i + 1, ie, ri + i - is, re - 1);
+        TreeNode* root = new TreeNode(postorder[posEnd]);
+        
+        int inRoot = mp[root -> val];
+        int numsLeft = inRoot - inStart;
+        
+        root -> left = helper(inorder, postorder, inStart, inRoot - 1, posStart, posStart + numsLeft - 1, mp);
+        root -> right = helper(inorder, postorder, inRoot + 1, inEnd, posStart + numsLeft, posEnd - 1, mp);
         
         return root;
-    }
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        return helper(inorder, postorder, 0, inorder.size() - 1, 0, postorder.size() - 1);
     }
 };
