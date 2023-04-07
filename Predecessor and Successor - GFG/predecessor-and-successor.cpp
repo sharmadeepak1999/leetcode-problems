@@ -113,13 +113,13 @@ void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
 {
 
 // Your code goes here
-    vector<Node*> inorder;
     
     Node* curr = root;
     
     while(curr) {
         if(!curr -> left) {
-            inorder.push_back(curr);
+            if(curr -> key < key) pre = curr;
+            if(curr -> key > key && !suc) suc = curr;
             curr = curr -> right;
         } else {
             Node* temp = curr -> left;
@@ -128,20 +128,13 @@ void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
             
             if(temp -> right) {
                 temp -> right = NULL;
-                inorder.push_back(curr);
+                if(curr -> key < key) pre = curr;
+                if(curr -> key > key && !suc) suc = curr;
                 curr = curr -> right;
             } else {
                 temp -> right = curr;
                 curr = curr -> left;
             }
-        }
-    }
-    int n = inorder.size();
-    for(int i = 0; i < n; i++) {
-        if(inorder[i] -> key < key) pre = inorder[i];
-        if(inorder[i] -> key > key) {
-            suc = inorder[i];
-            break;
         }
     }
 }
