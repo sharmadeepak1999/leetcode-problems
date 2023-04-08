@@ -10,40 +10,42 @@
  * };
  */
 class Solution {
+    stack<TreeNode*> nxtStack, bfrStack;
+    void pushLeftNodes(TreeNode* root) {
+        for(; root != NULL; root = root -> left) nxtStack.push(root);
+    }
+    
+    void pushRightNodes(TreeNode* root) {
+        for(; root != NULL; root = root -> right) bfrStack.push(root);
+    }
 public:
+    int next() {
+        TreeNode* nxt = nxtStack.top();
+        nxtStack.pop();
+        
+        if(nxt -> right) pushLeftNodes(nxt -> right);
+        return nxt -> val;
+    }
+    int before() {
+        TreeNode* bfr = bfrStack.top();
+        bfrStack.pop();
+        
+        if(bfr -> left) pushRightNodes(bfr -> left);
+        return bfr -> val;
+    }
     bool findTarget(TreeNode* root, int k) {
-        vector<int> inorder;
-        TreeNode* curr = root;
-        
-        while(curr) {
-            if(!curr -> left) {
-                inorder.push_back(curr -> val);
-                curr = curr -> right;
-            } else {
-                TreeNode* temp = curr -> left;
-                
-                while(temp -> right && temp -> right != curr) temp = temp -> right;
-                
-                if(temp -> right) {
-                    temp -> right = NULL;
-                    inorder.push_back(curr -> val);
-                    curr = curr -> right;
-                } else {
-                    temp -> right = curr;
-                    curr = curr -> left;
-                }
-            }
-        }
-        
-        int i = 0, j = inorder.size() - 1;
-        
-        while(i < j) {
-            int sum = inorder[i] + inorder[j];
+        pushLeftNodes(root);
+        pushRightNodes(root);
+        int nxt = next();
+        int bfr = before();
+        while(nxt < bfr) {
+            int sum = nxt + bfr;
             
-            if(sum == k) return 1;
-            else if(sum < k) i++;
-            else j--;
+            if(sum == k) return true;
+            
+            if(sum < k) nxt = next();
+            else bfr = before();
         }
-        return 0;
+        return false;
     }
 };
