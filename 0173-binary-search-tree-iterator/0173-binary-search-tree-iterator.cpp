@@ -10,39 +10,28 @@
  * };
  */
 class BSTIterator {
-    vector<int> inorder;
-    int i = 0;
+    stack<TreeNode*> st;
+    void insertLeftNodes(stack<TreeNode*> &st, TreeNode* root) {
+        while(root) {
+            st.push(root);
+            root = root -> left;
+        }
+    }
 public:
     BSTIterator(TreeNode* root) {
-        TreeNode* curr = root;
-        
-        while(curr) {
-            if(!curr -> left) {
-                inorder.push_back(curr -> val);
-                curr = curr -> right;
-            } else {
-                TreeNode* temp = curr -> left;
-                
-                while(temp -> right && temp -> right != curr) temp = temp -> right;
-                
-                if(temp -> right) {
-                    temp -> right = NULL;
-                    inorder.push_back(curr -> val);
-                    curr = curr -> right;
-                } else {
-                    temp -> right = curr;
-                    curr = curr -> left;
-                }
-            }
-        }
+        insertLeftNodes(st, root);
     }
     
     int next() {
-        return inorder[i++];
+        TreeNode* nxt = st.top();
+        st.pop();
+        
+        if(nxt -> right) insertLeftNodes(st, nxt -> right);
+        return nxt -> val;
     }
     
     bool hasNext() {
-        return i < inorder.size();
+        return st.size();
     }
 };
 
