@@ -10,28 +10,38 @@
  * };
  */
 class Solution {
-    vector<int> morrisInorder(TreeNode* root, vector<int>& inorder, bool compare) {
-        TreeNode* curr = root;
-        vector<int> res;
-        int i = 0;
+public:
+    void recoverTree(TreeNode* root) {
+        TreeNode* prev, *middle, *last;
+        prev = middle = last = NULL;
+        
+        TreeNode* curr = root, *before = NULL;
+        
         while(curr) {
             if(!curr -> left) {
-                if(compare) {
-                    if(inorder[i] != curr -> val) curr -> val = inorder[i];
-                    i++;
-                } else res.push_back(curr -> val);
+                if(before && before -> val > curr -> val) {
+                    if(prev) {
+                        last = curr;
+                    } else {
+                        prev = before;
+                        middle = curr;
+                    }
+                } else before = curr;
                 curr = curr -> right;
             } else {
                 TreeNode* temp = curr -> left;
-                
                 while(temp -> right && temp -> right != curr) temp = temp -> right;
                 
                 if(temp -> right) {
                     temp -> right = NULL;
-                    if(compare) {
-                        if(inorder[i] != curr -> val) curr -> val = inorder[i];
-                        i++;
-                    } else res.push_back(curr -> val);
+                    if(before && before -> val > curr -> val) {
+                        if(prev) {
+                            last = curr;
+                        } else {
+                            prev = before;
+                            middle = curr;
+                        }
+                    } else before = curr;
                     curr = curr -> right;
                 } else {
                     temp -> right = curr;
@@ -39,14 +49,15 @@ class Solution {
                 }
             }
         }
-        return res;
-    }
-public:
-    void recoverTree(TreeNode* root) {
-        vector<int> inorder = morrisInorder(root, inorder, false);
         
-        sort(inorder.begin(), inorder.end());
-        
-        morrisInorder(root, inorder, true);
+        if(last == NULL) {
+            int temp = prev -> val;
+            prev -> val = middle -> val;
+            middle -> val = temp;
+        } else {
+            int temp = prev -> val;
+            prev -> val = last -> val;
+            last -> val = temp;
+        }
     }
 };
