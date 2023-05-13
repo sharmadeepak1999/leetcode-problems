@@ -1,12 +1,14 @@
 class Solution {
 public:
     int sumOfPower(vector<int>& nums) {
-        long long res = 0, s = 0, base = 1e9 + 7;
+        int mod = 1e9 + 7;
         sort(nums.begin(), nums.end());
-        for (int x: nums) {
-            res = (res + (s + x) * x % base * x % base) % base;
-            s = (s * 2 + x) % base;
+        long long ans = 0;
+        long long s = 0;
+        for(auto &num:nums) {
+            ans = (ans + (s + num) * num % mod * num % mod) % mod;
+            s = (s * 2 + num) % mod;
         }
-        return res;
+        return ans;
     }
 };
