@@ -9,19 +9,36 @@
  * };
  */
 class Solution {
-    void helper(ListNode*&front, ListNode* back, int &maxi) {
-        if(back == NULL) return;
+    ListNode* reverseLL(ListNode* root) {
+        ListNode* prev = NULL;
+        ListNode* temp = root;
         
-        helper(front, back -> next, maxi);
-        maxi = max(maxi, front -> val + back -> val);
-        front = front -> next;
+        while(temp) {
+            ListNode* t = temp -> next;
+            temp -> next = prev;
+            prev = temp;
+            temp = t;
+        }
+        return prev;
     }
 public:
     int pairSum(ListNode* head) {
-        ListNode* front = head;
-        ListNode* back = head;
+        ListNode* slow = head, *fast = head;
         int maxi = 0;
-        helper(front, back, maxi);
+        while(fast && fast -> next && fast -> next -> next) {
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+        slow -> next = reverseLL(slow -> next);
+        
+        ListNode* first = head;
+        ListNode* second = slow -> next;
+        
+        while(second) {
+            maxi = max(maxi, first -> val + second -> val);
+            first = first -> next;
+            second = second -> next;
+        }
         return maxi;
     }
 };
