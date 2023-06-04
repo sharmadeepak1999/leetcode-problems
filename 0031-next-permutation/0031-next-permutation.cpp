@@ -10,7 +10,8 @@ public:
                 break;
             }
         }
-        if(ind1 >= 0) { 
+        
+        if(ind1 >= 0) {
             for(int i = n - 1; i >= 0; i--) {
                 if(nums[i] > nums[ind1]) {
                     ind2 = i;
