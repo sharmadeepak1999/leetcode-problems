@@ -25,8 +25,8 @@ public:
             }
             temp = temp -> next;
         }
-        if(temp1) temp = temp -> next = temp1;
-        if(temp2) temp = temp -> next = temp2;
+        if(temp1) temp -> next = temp1;
+        if(temp2) temp -> next = temp2;
         return dummy -> next;
     }
 };
