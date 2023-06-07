@@ -10,35 +10,38 @@
  */
 class Solution {
 public:
-    int lengthOfLL(ListNode *head) {
-        int l = 0;
-        while(head) {
-            head = head -> next;
-            l++;
+    ListNode* reverseLL(ListNode* head) {
+        ListNode* prev = NULL;
+        
+        ListNode* temp = head;
+        
+        while(temp) {
+            ListNode* t = temp -> next;
+            temp -> next = prev;
+            prev = temp;
+            temp = t;
         }
-        return l;
+        return prev;
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
-        int length = lengthOfLL(head);
-        
-        ListNode *dummy = new ListNode(0);
-        
+        ListNode* dummy = new ListNode();
         dummy -> next = head;
-        
-        ListNode *pre = dummy, *curr, *nex;
-        
-        while(length >= k) {
-            curr = pre -> next;
-            nex = curr -> next;
-            
-            for(int i = 1; i < k; i++) {
-                curr -> next = nex -> next;
-                nex -> next = pre -> next;
-                pre -> next = nex;
-                nex = curr -> next;
+        ListNode* temp = head, *prev = dummy;
+        int c = 0;
+        while(temp) {
+            if(c == k - 1) {
+                ListNode *t1 = temp -> next;
+                ListNode *t2 = prev -> next;
+                temp -> next = NULL;
+                prev -> next = reverseLL(prev -> next);
+                prev = t2;
+                t2 -> next = t1;
+                temp = t1;
+                c = 0;
+            } else {
+                c++;
+                temp = temp -> next;
             }
-            pre = curr;
-            length -= k;
         }
         return dummy -> next;
     }
