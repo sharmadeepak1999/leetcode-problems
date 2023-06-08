@@ -1,22 +1,19 @@
 class Solution {
-public:
-    
-    void helper(vector<int> &nums, vector<vector<int>> &ans, vector<int> curr, int i) {
-        
+    void helper(vector<int> &nums, vector<vector<int>> &ans, vector<int> &curr, int i, int n) {
         ans.push_back(curr);
-        
-        for(int j = i; j < nums.size(); j++) {
-            if(i != j && nums[j] == nums[j - 1]) continue;
+        for(int j = i; j < n; j++) {
+            if(j != i && nums[j - 1] == nums[j]) continue;
             curr.push_back(nums[j]);
-            helper(nums, ans, curr, j + 1);
+            helper(nums, ans, curr, j + 1, n);
             curr.pop_back();
         }
     }
+public:
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        
         vector<vector<int>> ans;
-        helper(nums, ans, {}, 0);
+        vector<int> curr;
+        helper(nums, ans, curr, 0, nums.size());
         return ans;
     }
 };
