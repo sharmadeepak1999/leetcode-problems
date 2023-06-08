@@ -16,20 +16,21 @@ class Solution{
     	sort(arr, arr + n);
     	sort(dep, dep + n);
     	
-    	int i = 1, j = 0;
-    	int count = 1, ans = 1;
-    	
-    	while(i < n && j < n) {
-    	    if(arr[i] <= dep[j]) {
-    	        count++;
-    	        i++;
-    	    } else {
-    	        count--;
-    	        j++;
-    	    }
-    	    ans = max(ans, count);
-    	}
-    	return ans;
+        int maxi = 1, count = 1;
+        int i = 1, j = 0;
+        
+        while(i < n && j < n) {
+            if(arr[i] <= dep[j]) {
+                count++;
+                i++;
+            } else {
+                count--;
+                j++;
+            }
+            
+            maxi = max(maxi, count);
+        }
+        return maxi;
     }
 };
 
