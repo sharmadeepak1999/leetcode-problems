@@ -1,40 +1,53 @@
 class Solution {
-public:
-    bool canPlace(vector<string> board, int n, int row, int col) {
+    bool isSafe(vector<vector<int>> &board, int row, int col, int n) {
         for(int i = row - 1; i >= 0; i--) {
-            if(board[i][col] == 'Q') return false;
+            if(board[i][col] == 1) return false;
         }
         
-        for(int j = col - 1; j >= 0; j--) {
-            if(board[row][j] == 'Q') return false;
+        int i = row - 1, j = col - 1;
+        while(i >= 0 && j >= 0) {
+            if(board[i][j] == 1) return false;
+            i--;
+            j--;
         }
-        
-        for(int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
-            if(board[i][j] == 'Q') return false;
-        }
-        
-        for(int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
-            if(board[i][j] == 'Q') return false;
+        i = row - 1, j = col + 1;
+        while(i >= 0 && j < n) {
+            if(board[i][j] == 1) return false;
+            i--;
+            j++;
         }
         return true;
     }
-    void helper(vector<vector<string>> &ans, vector<string> &board, int n, int row) {
+    void helper(vector<vector<int>> &board, vector<vector<string>> &ans, int row, int n) {
         if(row == n) {
-            ans.push_back(board);
-            return;
+            vector<string> res;
+            
+            for(int i = 0; i < n; i++) {
+                string s;
+                for(int j = 0; j < n; j++) {
+                    if(board[i][j] == 1) s.push_back('Q');
+                    else s.push_back('.');
+                }
+                res.push_back(s);
+            }
+            
+            ans.push_back(res);
         }
-        for(int j = 0; j < n; j++) {
-            if(canPlace(board, n, row, j)) {
-                board[row][j] = 'Q';
-                helper(ans, board, n, row + 1);
-                board[row][j] = '.';
+        
+        for(int col = 0; col < n; col++) {
+            if(isSafe(board, row, col, n)) {
+                board[row][col] = 1;
+                helper(board, ans, row + 1, n);
+                board[row][col] = 0;
             }
         }
     }
+public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
-        vector<string> board(n, string(n, '.'));
-        helper(ans, board, n, 0);
+        vector<vector<int>> board(n, vector<int>(n, 0));
+        
+        helper(board, ans, 0, n);
         return ans;
     }
 };
