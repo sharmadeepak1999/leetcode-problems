@@ -10,20 +10,19 @@
  * };
  */
 class Solution {
-public:
     int helper(TreeNode* root) {
         if(root == NULL) return 0;
+        int left = helper(root -> left);
+        int right = helper(root -> right);
+        return 1 + max(left, right);
+    }
+public:
+    bool isBalanced(TreeNode* root) {
+        if(root == NULL) return true;
         
         int leftHeight = helper(root -> left);
-        if(leftHeight == -1) return -1;
         int rightHeight = helper(root -> right);
-        if(rightHeight == -1) return -1;
         
-        if(abs(leftHeight - rightHeight) > 1) return -1;
-        
-        return 1 + max(leftHeight, rightHeight);
-    }
-    bool isBalanced(TreeNode* root) {
-        return helper(root) != -1;   
+        return abs(leftHeight - rightHeight) <= 1 && isBalanced(root -> left) && isBalanced(root -> right);
     }
 };
