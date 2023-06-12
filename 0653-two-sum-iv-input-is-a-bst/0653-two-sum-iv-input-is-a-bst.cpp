@@ -10,41 +10,37 @@
  * };
  */
 class Solution {
-    stack<TreeNode*> nxtStack, bfrStack;
-    void pushLeftNodes(TreeNode* root) {
-        for(; root != NULL; root = root -> left) nxtStack.push(root);
-    }
-    
-    void pushRightNodes(TreeNode* root) {
-        for(; root != NULL; root = root -> right) bfrStack.push(root);
-    }
 public:
-    int next() {
-        TreeNode* nxt = nxtStack.top();
-        nxtStack.pop();
-        
-        if(nxt -> right) pushLeftNodes(nxt -> right);
-        return nxt -> val;
-    }
-    int before() {
-        TreeNode* bfr = bfrStack.top();
-        bfrStack.pop();
-        
-        if(bfr -> left) pushRightNodes(bfr -> left);
-        return bfr -> val;
-    }
     bool findTarget(TreeNode* root, int k) {
-        pushLeftNodes(root);
-        pushRightNodes(root);
-        int nxt = next();
-        int bfr = before();
-        while(nxt < bfr) {
-            int sum = nxt + bfr;
-            
+        TreeNode* curr = root;
+        vector<int> inorder;
+        
+        while(curr) {
+            if(curr -> left == NULL) {
+                inorder.push_back(curr -> val);
+                curr = curr -> right;
+            } else {
+                TreeNode* prev = curr -> left;
+                
+                while(prev -> right && prev -> right != curr) prev = prev -> right;
+                if(prev -> right == NULL) {
+                    prev -> right = curr;
+                    curr = curr -> left;
+                } else {
+                    prev -> right = NULL;
+                    inorder.push_back(curr -> val);
+                    curr = curr -> right;
+                }
+            }
+        }
+        
+        int l = 0, h = inorder.size() - 1;
+        
+        while(l < h) {
+            int sum = inorder[l] + inorder[h];
             if(sum == k) return true;
-            
-            if(sum < k) nxt = next();
-            else bfr = before();
+            else if(sum > k) h--;
+            else l++;
         }
         return false;
     }
