@@ -10,21 +10,19 @@
  * };
  */
 class Solution {
-public:
-    TreeNode* helper(vector<int> &preorder, int ps, int pe) {
-        if(ps > pe) return NULL;
+    TreeNode* build(vector<int> &preorder, int s, int e) {
+        if(s > e) return NULL;
         
-        int rootData = preorder[ps];
-        TreeNode* root = new TreeNode(rootData);
+        TreeNode* node = new TreeNode(preorder[s]);
         
-        int left = ps + 1;
-        
-        while(left <= pe && preorder[left] < rootData) left++;
-        root -> left = helper(preorder, ps + 1, left - 1);
-        root -> right = helper(preorder, left, pe);
-        return root;
+        int i = s + 1;
+        while(i <= e && preorder[i] < preorder[s]) i++;
+        node -> left = build(preorder, s + 1, i - 1);
+        node -> right = build(preorder, i, e);
+        return node;
     }
+public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return helper(preorder, 0, preorder.size() - 1);
+        return build(preorder, 0, preorder.size() - 1);
     }
 };
