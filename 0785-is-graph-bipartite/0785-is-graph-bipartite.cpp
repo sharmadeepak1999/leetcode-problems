@@ -1,20 +1,11 @@
 class Solution {
-    bool bfs(vector<vector<int>>& graph, vector<int> &visited, vector<int> &color, int root) {
-        queue<int> q;
-        q.push(root);
-        visited[root] = 1;
-        color[root] = 0;
-        while(!q.empty()) {
-            int node = q.front();
-            q.pop();
-
-            for(auto &adjNode:graph[node]) {
-                if(!visited[adjNode]) {
-                    visited[adjNode] = 1;
-                    color[adjNode] = !color[node];
-                    q.push(adjNode);
-                } else if(color[adjNode] == color[node]) return false;
-            }
+    bool dfs(vector<vector<int>>& graph, vector<int> &visited, vector<int> &color, int node) {
+        visited[node] = 1;
+        for(auto &adjNode:graph[node]) {
+            if(!visited[adjNode]) {
+                color[adjNode] = !color[node];
+                if(!dfs(graph, visited, color, adjNode)) return false;
+            } else if(color[adjNode] == color[node]) return false;
         }
         return true;
     }
@@ -26,7 +17,8 @@ public:
         
         for(int i = 0; i < n; i++) {
             if(!visited[i]) {
-                if(!bfs(graph, visited, color, i)) return false;
+                color[i] = 0;
+                if(!dfs(graph, visited, color, i)) return false;
             }
         }
         return true;
