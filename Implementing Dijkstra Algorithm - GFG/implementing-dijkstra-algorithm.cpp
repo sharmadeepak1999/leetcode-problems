@@ -10,55 +10,27 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int v, vector<vector<int>> adj[], int s)
     {
-        /*
         // Code here
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<int> distance(v, 1e9);
+        distance[s] = 0;
         
-        pq.push({0, s});
-        vector<int> dist(v, 1e9);
-        dist[s] = 0;
+        priority_queue<pair<int, int>> pq;
+        pq.push({ 0, s });
+        
         while(!pq.empty()) {
-            int dis = pq.top().first;
+            int dist = pq.top().first;
             int node = pq.top().second;
+            
             pq.pop();
             
-            for(auto &adjNode:adj[node]) {
-                int currDist = dis + adjNode[1];
-                
-                if(currDist < dist[adjNode[0]]) {
-                    dist[adjNode[0]] = currDist;
-                    pq.push({dist[adjNode[0]], adjNode[0]});
+            for(auto &it:adj[node]) {
+                if(dist + it[1] < distance[it[0]]) {
+                    distance[it[0]] = dist + it[1];
+                    pq.push({ distance[it[0]], it[0] });
                 }
             }
         }
-        return dist;
-        */
-        
-        set<pair<int, int>> st;
-        
-        st.insert({0, s});
-        
-        vector<int> dist(v, INT_MAX);
-        dist[s] = 0;
-        while(!st.empty()) {
-            auto it = *(st.begin());
-            int dis = it.first;
-            int node = it.second;
-            st.erase(it);
-            
-            for(auto &adjNode:adj[node]) {
-                int w = adjNode[1];
-                int nd = adjNode[0];
-                
-                if(dis + w < dist[nd]) {
-                    if(dist[nd] != INT_MAX)
-                        st.erase({ dist[nd], nd });
-                    dist[nd] = dis + w;
-                    st.insert({ dist[nd], nd });
-                }
-            }
-        }
-        return dist;
+        return distance;
     }
 };
 
