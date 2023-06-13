@@ -3,6 +3,54 @@
 using namespace std;
 
 // } Driver Code Ends
+
+class DisjointSet {
+    vector<int> rank, parent, size;
+    public:
+    DisjointSet(int n) {
+        rank.resize(n, 0);
+        parent.resize(n);
+        size.resize(n);
+        
+        for(int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = i;
+        }
+    }
+    int findUPar(int node) {
+        if(parent[node] == node) return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+    
+    void unionByRank(int u, int v) {
+        int uPar = findUPar(u);
+        int vPar = findUPar(v);
+        
+        if(uPar == vPar) return;
+        
+        if(rank[uPar] < rank[vPar]) {
+            parent[uPar] = vPar;
+        } else if(rank[vPar] < rank[uPar]) parent[vPar] = uPar;
+        else {
+            parent[uPar] = vPar;
+            rank[vPar]++;
+        }
+    }
+    
+    void unionBySize(int u, int v) {
+        int uPar = findUPar(u);
+        int vPar = findUPar(v);
+        
+        if(uPar == vPar) return;
+        if(size[uPar] < size[vPar]) {
+            parent[uPar] = vPar;
+            size[vPar] += size[uPar];
+        } else {
+            parent[vPar] = uPar;
+            size[uPar] += size[vPar];
+        }
+    }
+};
 class Solution
 {
 	public:
@@ -10,27 +58,35 @@ class Solution
     int spanningTree(int n, vector<vector<int>> adj[])
     {
         // code here
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<vector<int>> edges;
         
-        pq.push({ 0, 0 });
-        vector<int> visited(n, 0);
-        int sum = 0;
-        while(!pq.empty()) {
-            int wt = pq.top().first;
-            int node = pq.top().second;
-            pq.pop();
-            if(visited[node]) continue;
-            sum += wt;
-            visited[node] = 1;
-            for(auto &it:adj[node]) {
-                int adjWt = it[1];
+       for (int i = 0; i < n; i++) {
+            for (auto it : adj[i]) {
                 int adjNode = it[0];
-                
-                if(!visited[adjNode]) {
-                    pq.push({ adjWt, adjNode });
-                }
+                int wt = it[1];
+                int node = i;
+
+                edges.push_back({wt, node, adjNode});
             }
         }
+
+        
+        sort(edges.begin(), edges.end());
+        
+        DisjointSet ds(n);
+        
+        int sum = 0;
+        for(auto &it:edges) {
+            int u = it[1];
+            int v = it[2];
+            int wt = it[0];
+            
+            if(ds.findUPar(u) != ds.findUPar(v)) {
+                sum += wt;
+                ds.unionByRank(u, v);
+            }
+        }
+        
         return sum;
     }
 };
