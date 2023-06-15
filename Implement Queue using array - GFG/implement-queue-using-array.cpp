@@ -77,7 +77,8 @@ void MyQueue :: push(int x)
 //Function to pop an element from queue and return that element.
 int MyQueue :: pop()
 {
-        // Your Code
-        if(rear == front) return -1;
-        return arr[front++];
+        // Your Code 
+        if(front == rear) return -1;
+        int res = arr[front++];
+        return res;
 }
