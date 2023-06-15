@@ -63,7 +63,7 @@ public:
 void MyStack :: push(int x)
 {
     // Your Code
-    if(top + 1 == 1000) return;
+    if(top == 999) return;
     arr[++top] = x;
 }
 
@@ -72,5 +72,6 @@ int MyStack :: pop()
 {
     // Your Code  
     if(top == -1) return -1;
-    return arr[top--];
+    int ans = arr[top--];
+    return ans;
 }
