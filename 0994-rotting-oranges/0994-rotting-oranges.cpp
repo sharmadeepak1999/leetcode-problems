@@ -1,43 +1,40 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
+        queue<vector<int>> q;
         int m = grid.size();
         int n = grid[0].size();
-        vector<vector<int>> visited(m, vector<int>(n, 0));
-        queue<pair<pair<int, int>, int>> q;
-        
+        int freshCount = 0;
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 if(grid[i][j] == 2) {
-                    q.push({{i, j}, 0});
-                    visited[i][j] = 1;
-                }
+                    q.push({i, j, 0});
+                } else if(grid[i][j] == 1) freshCount++;
             }
         }
-        
-        int time = 0;
-        vector<int> offset = {-1, 0, 1, 0, -1};
+        int minTime = 0;
         while(!q.empty()) {
-            int row = q.front().first.first;
-            int col = q.front().first.second;
-            int t = q.front().second;
+            vector<int> tuple = q.front();
             q.pop();
-            time = max(time, t);
+            
+            int i = tuple[0];
+            int j = tuple[1];
+            int time = tuple[2];
+            minTime = max(minTime, time);
+            int offset[5] = {-1, 0, 1, 0, -1};
+            
             for(int k = 0; k < 4; k++) {
-                int nrow = row + offset[k];
-                int ncol = col + offset[k+1];
-                if(nrow >= 0 && nrow < m && ncol >= 0 && ncol < n && !visited[nrow][ncol] && grid[nrow][ncol] == 1) {
-                    visited[nrow][ncol] = 1;
-                    q.push({{nrow, ncol}, t + 1});
-                }
+                int ni = i + offset[k];
+                int nj = j + offset[k + 1];
+                
+                if(ni < 0 || nj < 0 || ni >= m || nj >= n || grid[ni][nj] == 2 || grid[ni][nj] == 0) continue;
+                freshCount--;
+                grid[ni][nj] = 2;
+                q.push({ ni, nj, time + 1 });
             }
         }
         
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                if(grid[i][j] == 1 && visited[i][j] != 1) return -1;
-            }
-        }
-        return time;
+        if(freshCount > 0) return -1;
+        return minTime;
     }
 };
