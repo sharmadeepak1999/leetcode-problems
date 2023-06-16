@@ -20,7 +20,6 @@ class LRU {
     }
     int deleteLRU() {
         Node *temp = tail -> prev;
-        cout << temp -> value << ' ' << temp -> key << endl;
         tail -> prev = temp -> prev;
         temp -> prev -> next = tail;
         int key = temp -> key;
