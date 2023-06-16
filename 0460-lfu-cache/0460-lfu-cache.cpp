@@ -81,8 +81,6 @@ public:
     int get(int key) {
         if(nodeMp.find(key) == nodeMp.end()) return -1;
         int value = nodeMp[key] -> value;
-        
-        cout << "HERE 2" << endl;
         put(key, value);
         return value;
     }
