@@ -1,30 +1,37 @@
 class Solution {
+    bool search(vector<vector<char>> &board, string word, int p, int i, int j, int m, int n) {
+        if(p == word.size() - 1) return word[p] == board[i][j];
+        if(word[p] != board[i][j]) return false;
+        int offset[5] = {-1, 0, 1, 0, -1};
+        char c = board[i][j];
+        board[i][j] = '0';
+        bool flag = false;
+        for(int k = 0; k < 4; k++) {
+            int ni = i + offset[k];
+            int nj = j + offset[k + 1];
+            
+            if(ni < 0 || ni >= m || nj < 0 || nj >= n || board[ni][nj] == '0') continue;
+            if(search(board, word, p + 1, ni, nj, m, n)) {
+                flag = true;
+                break;
+            }
+        }
+        board[i][j] = c;
+        return flag;
+    }
 public:
-    // A B C E
-    // S F E S
-    // A D E E
-    bool isPossible(vector<vector<char>>& board, string word, int i, int j) {
-        if(word == "") return true;
-
-        int m = board.size(), n = board[0].size();
-        if(i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[0]) return false;
-    
-        board[i][j] = '0';   
-        bool status = isPossible(board, word.substr(1), i - 1, j) || isPossible(board, word.substr(1), i + 1, j) || isPossible(board, word.substr(1), i, j - 1) || isPossible(board, word.substr(1), i, j + 1);
-
-        board[i][j] = word[0];   
-        return status;
-}
     bool exist(vector<vector<char>>& board, string word) {
-        for(int i = 0; i < board.size(); i++) {
-            for(int j = 0; j < board[0].size(); j++) {
-                if(board[i][j] == word[0]) {
-                    if(isPossible(board, word, i, j)) {
-                        return true;
-                    }
-                }
+        int m = board.size();
+        int n = board[0].size();
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(search(board, word, 0, i, j, m, n)) return true;
             }
         }
         return false;
     }
 };
+// A B C E
+// S F C S 
+// A D E E
