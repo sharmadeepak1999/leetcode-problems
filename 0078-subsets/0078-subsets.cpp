@@ -1,20 +1,19 @@
 class Solution {
-public:
-    void helper(int n, int i, vector<int> &nums, vector<vector<int>> &ans, vector<int> sub) {
-        if(i == n) {
-            ans.push_back(sub);
-            return;
+    void helper(vector<int> &nums, vector<vector<int>> &ans, vector<int> sub, int i) {
+        ans.push_back(sub);
+        
+        for(int j = i; j < nums.size(); j++) {
+            sub.push_back(nums[j]);
+            helper(nums, ans, sub, j + 1);
+            sub.pop_back();
         }
-        sub.push_back(nums[i]);
-        helper(n, i + 1, nums, ans, sub);
-        sub.pop_back();
-        helper(n, i + 1, nums, ans, sub);
     }
+public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        int n = nums.size();
         vector<vector<int>> ans;
-        vector<int> sub;
-        helper(n, 0, nums, ans, sub);
+        
+        helper(nums, ans, {}, 0);
+        
         return ans;
     }
 };
