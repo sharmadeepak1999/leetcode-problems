@@ -19,12 +19,11 @@ class Solution
         sort(v.begin(), v.end());
         
         int count = 1;
-        int last = 0;
-        
+        int j = 0;
         for(int i = 1; i < n; i++) {
-            if(v[i].second > v[last].first) {
+            if(v[i].second > v[j].first) {
                 count++;
-                last = i;
+                j = i;
             }
         }
         return count;
