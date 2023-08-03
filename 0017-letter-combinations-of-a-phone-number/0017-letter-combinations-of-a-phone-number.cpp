@@ -1,22 +1,19 @@
 class Solution {
-public:
-    void helper(string digits, vector<string> &mp, vector<string> &ans, string s, int i) {
+    void helper(string digits, int i, unordered_map<int, string> &mp, vector<string> &ans, string curr) {
         if(i == digits.size()) {
-            ans.push_back(s);
+            if(curr.size())
+            ans.push_back(curr);
             return;
         }
-        
-        for(int k = 0; k < mp[digits[i] - '0'].size(); k++) {
-            helper(digits, mp, ans, s + mp[digits[i] - '0'][k], i + 1);
+        for(auto &c:mp[digits[i] - '0']) {
+            helper(digits, i + 1, mp, ans, curr + c);
         }
     }
+public:
     vector<string> letterCombinations(string digits) {
-        if(digits == "") return {};
-        vector<string> mp = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        unordered_map<int, string> mp{{2,"abc"},{3,"def"},{4,"ghi"},{5,"jkl"},{6,"mno"},{7,"pqrs"},{8,"tuv"},{9,"wxyz"}};
         vector<string> ans;
-        
-        helper(digits, mp, ans, "", 0);
-        
+        helper(digits, 0, mp, ans, "");
         return ans;
     }
 };
