@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select (select distinct(product_name) from Products where product_id = p.product_id) as product_name, p.unit as unit from (select product_id, SUM(unit) as unit from Orders where order_date between "2020-02-01" and "2020-02-29" group by product_id) as p where p.unit >= 100;
