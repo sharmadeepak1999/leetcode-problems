@@ -1,19 +1,20 @@
 class Solution {
-public:
-    bool lol(int ind, string &s, vector<int> &dp, vector<string> &wordDict){
-        if(ind==s.size()) return true;
-        if(dp[ind]!=-1) return dp[ind];
-        for(int i=ind;i<s.size();i++){
-            string v= s.substr(ind,i-ind+1);
-            if(find(wordDict.begin(),wordDict.end(),v)!=wordDict.end()){
-                if(lol(i+1,s,dp,wordDict)) return dp[ind]=true;
+    bool helper(string &s, unordered_set<string> &st, int i, vector<int> &dp) {
+        if(i == s.size()) return true;
+        if(dp[i] != -1) return dp[i];
+        for(int j = i; j < s.size(); j++) {
+            string sub = s.substr(i, j - i + 1);
+            if(st.find(sub) != st.end()) {
+                if(helper(s, st, j + 1, dp)) return dp[i] = true;
             }
         }
-        return dp[ind]=false;
+        return dp[i] = false;
     }
+public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        int n=s.size();
-        vector<int> dp(n+1,-1);
-        return lol(0,s,dp,wordDict);
+        unordered_set<string> st;
+        for(auto &str:wordDict) st.insert(str);
+        vector<int> dp(s.size() + 1, -1);
+        return helper(s, st, 0, dp);
     }
 };
