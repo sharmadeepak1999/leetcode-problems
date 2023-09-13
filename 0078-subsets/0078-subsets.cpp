@@ -1,17 +1,17 @@
 class Solution {
-    void helper(vector<int> &nums, int i, vector<vector<int>> &ans, vector<int> sub) {
-        ans.push_back(sub);
-        
-        for(int j = i; j < nums.size(); j++) {
-            sub.push_back(nums[j]);
-            helper(nums, j + 1, ans, sub);
-            sub.pop_back();
-        }
-    }
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
+        int n = nums.size();
+        int powerSet = pow(2, n) - 1;
+        
         vector<vector<int>> ans;
-        helper(nums, 0, ans, {});
+        for(int i = 0; i <= powerSet; i++) {
+            vector<int> temp;
+            for(int j = 0; j < n; j++) {
+                if(i & (1 << j)) temp.push_back(nums[j]);
+            }
+            ans.push_back(temp);
+        }
         return ans;
     }
 };
