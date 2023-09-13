@@ -9,9 +9,9 @@
  * };
  */
 class Solution {
-public:
-    ListNode* middleLL(ListNode *head) {
-        ListNode *slow = head, *fast = head;
+    ListNode* getMiddleLL(ListNode* head) {
+        if(head == NULL || head -> next == NULL) return NULL;
+        ListNode* slow = head, *fast = head;
         
         while(fast && fast -> next && fast -> next -> next) {
             slow = slow -> next;
@@ -20,33 +20,37 @@ public:
         
         return slow;
     }
+public:
     ListNode* sortList(ListNode* head) {
         if(head == NULL || head -> next == NULL) return head;
         
-        ListNode *mid = middleLL(head);
-        ListNode *l = head;
-        ListNode *r = mid -> next;
+        ListNode* mid = getMiddleLL(head);
+        cout << mid -> val << endl;
+        ListNode* temp = mid -> next;
         mid -> next = NULL;
-        l = sortList(l);
-        r = sortList(r);
         
-        ListNode *temp = new ListNode();
-        ListNode *ans = temp;
-        while(l && r) {
-            temp = temp -> next = new ListNode();
-            
-            if(l -> val < r -> val) {
-                temp -> val = l -> val;
-                l = l -> next;
+        ListNode* left = sortList(head);
+        ListNode* right = sortList(temp);
+        
+        ListNode *dummy = new ListNode();
+        ListNode *t = dummy;
+        while(left && right) {
+            if(left -> val < right -> val) {
+                t -> next = left;
+                left = left -> next;
             } else {
-                temp -> val = r -> val;
-                r = r -> next;
+                t -> next = right;
+                right = right -> next;
             }
+            t = t -> next;
         }
         
-        if(l) temp -> next = l;
-        if(r) temp -> next = r;
-        
-        return ans -> next;
+        if(left) {
+            t -> next = left;
+        }
+        if(right) {
+            t -> next = right;
+        }
+        return dummy -> next;
     }
 };
