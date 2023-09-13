@@ -1,44 +1,45 @@
 class Solution {
-    bool isSafe(vector<vector<int>> &board, int row, int col, int n) {
-        for(int i = row - 1; i >= 0; i--) {
-            if(board[i][col] == 1) return false;
+    bool isSafe(vector<vector<int>> &board, int i, int j, int n) {
+        for(int k = i - 1; k >= 0; k--) {
+            if(board[k][j] == 1) return false;
         }
+        int p = i - 1, q = j - 1;
         
-        int i = row - 1, j = col - 1;
-        while(i >= 0 && j >= 0) {
-            if(board[i][j] == 1) return false;
-            i--;
-            j--;
+        while(p >= 0 && q >= 0) {
+            if(board[p][q] == 1) return false;
+            p--;
+            q--;
         }
-        i = row - 1, j = col + 1;
-        while(i >= 0 && j < n) {
-            if(board[i][j] == 1) return false;
-            i--;
-            j++;
+        p = i - 1, q = j + 1;
+        
+        while(p >= 0 && q < n) {
+            if(board[p][q] == 1) return false;
+            p--;
+            q++;
         }
         return true;
     }
-    void helper(vector<vector<int>> &board, vector<vector<string>> &ans, int row, int n) {
+    void helper(vector<vector<string>> &ans, vector<vector<int>> &board, int row, int n) {
         if(row == n) {
-            vector<string> res;
+            vector<string> temp;
             
             for(int i = 0; i < n; i++) {
                 string s;
                 for(int j = 0; j < n; j++) {
-                    if(board[i][j] == 1) s.push_back('Q');
-                    else s.push_back('.');
+                    if(board[i][j] == 1) s += 'Q';
+                    else s += '.';
                 }
-                res.push_back(s);
+                temp.push_back(s);
             }
-            
-            ans.push_back(res);
+            ans.push_back(temp);
+            return;
         }
         
-        for(int col = 0; col < n; col++) {
-            if(isSafe(board, row, col, n)) {
-                board[row][col] = 1;
-                helper(board, ans, row + 1, n);
-                board[row][col] = 0;
+        for(int j = 0; j < n; j++) {
+            if(isSafe(board, row, j, n)) {
+                board[row][j] = 1;
+                helper(ans, board, row + 1, n);
+                board[row][j] = 0;
             }
         }
     }
@@ -47,7 +48,7 @@ public:
         vector<vector<string>> ans;
         vector<vector<int>> board(n, vector<int>(n, 0));
         
-        helper(board, ans, 0, n);
+        helper(ans, board, 0, n);
         return ans;
     }
 };
