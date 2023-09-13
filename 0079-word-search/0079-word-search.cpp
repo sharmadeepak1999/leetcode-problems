@@ -1,23 +1,19 @@
 class Solution {
-    bool search(vector<vector<char>> &board, string word, int p, int i, int j, int m, int n) {
-        if(p == word.size() - 1) return word[p] == board[i][j];
-        if(word[p] != board[i][j]) return false;
+    bool search(vector<vector<char>> &board, vector<vector<int>> &visited, string word, int pos, int i, int j, int m, int n) {
+        if(pos == word.size()) return true;
+
         int offset[5] = {-1, 0, 1, 0, -1};
-        char c = board[i][j];
-        board[i][j] = '0';
-        bool flag = false;
+        
         for(int k = 0; k < 4; k++) {
             int ni = i + offset[k];
             int nj = j + offset[k + 1];
             
-            if(ni < 0 || ni >= m || nj < 0 || nj >= n || board[ni][nj] == '0') continue;
-            if(search(board, word, p + 1, ni, nj, m, n)) {
-                flag = true;
-                break;
-            }
+            if(ni < 0 || ni >= m || nj < 0 || nj >= n || visited[ni][nj] == 1 || board[ni][nj] != word[pos]) continue;
+            visited[ni][nj] = 1;
+            if(search(board, visited, word, pos + 1, ni, nj, m, n)) return true;
+            visited[ni][nj] = 0;
         }
-        board[i][j] = c;
-        return flag;
+        return false;
     }
 public:
     bool exist(vector<vector<char>>& board, string word) {
@@ -26,12 +22,14 @@ public:
         
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                if(search(board, word, 0, i, j, m, n)) return true;
+                if(board[i][j] == word[0]) {
+                    vector<vector<int>> visited(m, vector<int>(n, 0));
+                    visited[i][j] = 1;
+                    if(search(board, visited, word, 1, i, j, m, n)) return true;
+                    visited[i][j] = 0;
+                }
             }
         }
         return false;
     }
 };
-// A B C E
-// S F C S 
-// A D E E
