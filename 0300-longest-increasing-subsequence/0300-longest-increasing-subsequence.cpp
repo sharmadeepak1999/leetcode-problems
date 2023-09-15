@@ -1,19 +1,18 @@
 class Solution {
-    int helper(vector<int> &nums, vector<vector<int>> &dp, int i, int prev) {
+    int helper(vector<int> &nums, int prev, int i, vector<vector<int>> &dp) {
         if(i == nums.size()) return 0;
-        if(dp[i][prev] != -1) return dp[i][prev];
-        int pick = 0, notpick = 0;
-        
-        if(prev == 0 || nums[i] > nums[prev - 1]) {
-            pick = 1 + helper(nums, dp, i + 1, i + 1);
+        if(dp[prev + 1][i] != -1) return dp[prev + 1][i];
+        int notpick = helper(nums, prev, i + 1, dp);
+        int pick = 0;
+        if(prev == -1 || nums[prev] < nums[i]) {
+            pick = 1 + helper(nums, i, i + 1, dp);
         }
-        notpick = helper(nums, dp, i + 1, prev);
-        return dp[i][prev] = max(pick, notpick);
+        return dp[prev + 1][i] = max(pick, notpick);
     }
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
         vector<vector<int>> dp(n, vector<int>(n, -1));
-        return helper(nums, dp, 0, 0);
+        return helper(nums, -1, 0, dp);
     }
 };
