@@ -1,23 +1,21 @@
 class Solution {
+    int helper(vector<vector<int>> &grid, int i, int j, vector<vector<int>> &dp) {
+        int m = grid.size();
+        int n = grid[0].size();
+        if(i >= m || j >= n) return INT_MAX;
+        if(i == m - 1 && j == n - 1) return grid[i][j];
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int down = helper(grid, i + 1, j, dp);
+        int right = helper(grid, i, j + 1, dp);
+        
+        return dp[i][j] = grid[i][j] + min(down, right);
+    }
 public:
     int minPathSum(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
         vector<vector<int>> dp(m, vector<int>(n, -1));
-        vector<int> prev(n);
-        for(int i = 0; i < m; i++) {
-            vector<int> curr(n);
-            for(int j = 0; j < n; j++) {
-                if(i == 0 && j == 0) curr[j] = grid[i][j];
-                else {
-                    int left = 1e9, up = 1e9;
-                    if(i > 0) up = grid[i][j] + prev[j];
-                    if(j > 0) left = grid[i][j] + curr[j - 1];
-                    curr[j] = min(left, up);
-                }
-            }
-            prev = curr;
-        }
-        return prev[n - 1];
+        return helper(grid, 0, 0, dp);
     }
 };
