@@ -1,35 +1,27 @@
 class Solution {
-public:
-    void helper(string s, vector<vector<string>> &ans, vector<string> curr, string str, int i) {
+    bool isPalindrome(string s) {
+        string rev = s;
+        reverse(rev.begin(), rev.end());
+        return s == rev;
+    }
+    void helper(string s, vector<vector<string>> &ans, vector<string> &curr, int i) {
         if(i == s.length()) {
-            if(str != "")
-            curr.push_back(str);
-            
-            bool f = true;
-            
-            for(auto &st:curr) {
-                string temp = st;
-                reverse(temp.begin(), temp.end());
-                if(temp != st) {
-                    f = false;
-                    break;
-                }
-            }
-            if(f) ans.push_back(curr);
+            ans.push_back(curr);
             return;
         }
-        if(str != "") {
-            curr.push_back(str);
-            helper(s, ans, curr, "", i);
-            curr.pop_back();
+        for(int j = i; j < s.length(); j++) {
+            if(isPalindrome(s.substr(i, j - i + 1))) {
+                curr.push_back(s.substr(i, j - i + 1));
+                helper(s, ans, curr, j + 1);
+                curr.pop_back();
+            }
         }
-        helper(s, ans, curr, str + s[i], i + 1);
     }
+public:
     vector<vector<string>> partition(string s) {
         vector<vector<string>> ans;
         vector<string> curr;
-        string str = "";
-        helper(s, ans, curr, str, 0);
+        helper(s, ans, curr, 0);
         return ans;
     }
 };
