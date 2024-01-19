@@ -1,27 +1,17 @@
 class Solution {
+    int helper(vector<vector<int>> &matrix, int i, int j, vector<vector<int>> &dp) {
+        if(j < 0 || j >= matrix[0].size()) return INT_MAX;
+        if(i == matrix.size() - 1) return matrix[i][j];
+        if(dp[i][j] != INT_MAX) return dp[i][j];
+        return dp[i][j] = matrix[i][j] + min(helper(matrix, i + 1, j, dp), min(helper(matrix, i + 1, j - 1, dp), helper(matrix, i + 1, j + 1, dp)));
+    }
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int n = matrix.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, INT_MAX));
         int mini = INT_MAX;
-        vector<vector<int>> dp(n, vector<int>(n, 1e9));
-        vector<int> front(n, 1e9);
         for(int i = 0; i < n; i++) {
-            front[i] = matrix[n - 1][i];
-        }
-        for(int i = n - 2; i >= 0; i--) {
-            vector<int> curr(n, 1e9);
-            for(int j = 0; j < n; j++) {
-                int ldiag = 1e9, rdiag = 1e9, down = 1e9;
-                
-                if(j > 0) ldiag = front[j - 1];
-                down = front[j];
-                if(j < n - 1) rdiag = front[j + 1];
-                curr[j] = matrix[i][j] + min(min(ldiag, rdiag), down);
-            }
-            front = curr;
-        }
-        for(int i = 0; i < n; i++) {
-            mini = min(mini, front[i]);
+            mini = min(mini, helper(matrix, 0, i, dp));
         }
         return mini;
     }
