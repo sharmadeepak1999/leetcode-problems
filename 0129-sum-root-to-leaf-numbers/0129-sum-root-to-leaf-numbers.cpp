@@ -10,21 +10,15 @@
  * };
  */
 class Solution {
-public:
-    void sum(TreeNode* root, int curr, int &s) {
-        if(root == NULL) return;
-        if(root -> left == NULL && root -> right == NULL) {
-            curr = curr * 10 + root -> val;
-            s += curr;
-            return;
-        }
-        curr = curr * 10 + root -> val;
-        sum(root -> left, curr, s);
-        sum(root -> right, curr, s);
+    int helper(TreeNode* root, int curr) {
+        if(root -> left == NULL && root -> right == NULL) return curr * 10 + root -> val;
+        int res = 0;
+        if(root -> left) res += helper(root -> left, curr * 10 + root -> val);
+        if(root -> right) res += helper(root -> right, curr * 10 + root -> val);
+        return res;
     }
+public:
     int sumNumbers(TreeNode* root) {
-        int s = 0;
-        sum(root, 0, s);
-        return s;
+        return helper(root, 0);
     }
 };
