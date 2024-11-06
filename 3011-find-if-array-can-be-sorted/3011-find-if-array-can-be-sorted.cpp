@@ -16,7 +16,6 @@ public:
         int s = 0, i = 1;
         while(i < nums.size()) {
             if(noofbits(nums[s]) != noofbits(nums[i])) {
-                cout << s << ' ' << i << endl;
                 sort(nums.begin() + s, nums.begin() + i);
                 s = i;
             }
