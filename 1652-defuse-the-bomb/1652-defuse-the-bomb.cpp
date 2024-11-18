@@ -7,9 +7,6 @@ public:
             for(int j = 0; j < code.size(); j++) temp[code.size() * (i - 1) + j] = code[j];
         }
         
-        for(int i = 0; i < temp.size(); i++) cout << temp[i] << ' ';
-        cout << endl;
-        
         vector<int> ans(code.size(), 0);
         if(k == 0) return ans;
         int s, e;
@@ -21,10 +18,8 @@ public:
             s = code.size() + 1;
             e = code.size() + k;
         }
-        cout << s << ' ' << e << endl;
         int winsum = accumulate(temp.begin() + s, temp.begin() + e + 1, 0);
         
-        cout << winsum << endl;
         for(int i = code.size(); i < 2 * code.size(); i++) {
             ans[i - code.size()] = winsum;
             winsum -= temp[s];
